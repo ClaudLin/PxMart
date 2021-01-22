@@ -1,0 +1,9 @@
+<?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
+<network-security-config>
+        <domain-config>
+            <domain includeSubdomains="true">pxmart2.brandstudio-ec.com</domain>
+            <pin digest="SHA-256">fwefVcb0A9CSQdIeP9yHpDAlYArBSQ1qoVRIYgL6Bzs=</pin>
+                <!-- backup pin -->
+            <pin digest="SHA-256">Ksgu6PE7X1yQ8nsxjP7dpiowWHIbBO7xp3khJJs6WnU=/yOhI/y+ho=</pin>
+        </domain-config>
+</network-security-config>
