@@ -19,7 +19,8 @@ object RSACrypt {
 
     val startDate = GregorianCalendar()
     val endDate = GregorianCalendar()
-    val transformation = "RSA/ECB/PKCS1Padding"
+    val transformation = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
+//    val transformation = "RSA/ECB/PKCS1Padding"
     val publicKeyStr =
         "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC039jg7sotX4xr+LGdmTWs7TgRGTAiMAINpAX8B1r8qUbiyHpqp4ozlQhOI8ogMM+p1rcDWTvM+8Iwd9laClFUeVYaun+h4XUgIM5nQ1qmTVN3uf1lYZxzf2a8B0pHWxPYDwIyeHj2UEb3Cx5i5NG5cZ24depXP6jPKwyzTTJtEwIDAQAB"
     val privateKeyStr =
@@ -335,5 +336,23 @@ object RSACrypt {
         generator.initialize(1024, SecureRandom())
         val keypair = generator.genKeyPair()
         return keypair
+    }
+
+    fun sign(plainText: String, privateKey: PrivateKey?): String? {
+        val privateSignature = Signature.getInstance("SHA1WithRSA")
+        privateSignature.initSign(privateKey)
+        privateSignature.update(plainText.toByteArray())
+        val signature = privateSignature.sign()
+        return Base64.encode(signature).toString()
+
+    }
+
+    fun verify(plainText: String, signature: String?, publicKey: PublicKey?): Boolean {
+        val publicSignature = Signature.getInstance("SHA1WithRSA")
+        publicSignature.initVerify(publicKey)
+        publicSignature.update(plainText.toByteArray())
+//        val signatureBytes: ByteArray = Base64.getDecoder().decode(signature)
+        val signatureBytes: ByteArray = Base64.decode(signature!!)
+        return publicSignature.verify(signatureBytes)
     }
 }

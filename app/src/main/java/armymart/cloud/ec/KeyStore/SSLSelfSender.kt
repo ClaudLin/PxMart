@@ -1,10 +1,8 @@
 package armymart.cloud.ec.KeyStore
 
 import android.content.Context
-import java.io.BufferedInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
+import okhttp3.CertificatePinner
+import java.io.*
 import java.net.MalformedURLException
 import java.net.URL
 import java.security.KeyManagementException
@@ -13,6 +11,7 @@ import java.security.KeyStoreException
 import java.security.NoSuchAlgorithmException
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
@@ -37,28 +36,28 @@ class SSLSelfSender {
             return null
         }
         try {
-            val urlConnection =
-                url.openConnection() as HttpsURLConnection
+            val urlConnection = url.openConnection() as HttpsURLConnection
             // 使用ssl context
             urlConnection.sslSocketFactory = sslContext.socketFactory
 
             // 讀取結果
-            val `is` = urlConnection.inputStream
-            if (`is` != null) {
-                val byteArrayOutputStream =
-                    ByteArrayOutputStream()
+//            val IS = urlConnection.inputStream
+            val IS: InputStream = BufferedInputStream(context.assets.open("crt/serverForssl.crt"))
+            if (IS != null) {
+                val byteArrayOutputStream = ByteArrayOutputStream()
                 val data = ByteArray(256)
                 var length = 0
                 var getPer = 0
-                while (`is`.read(data).also { getPer = it } != -1) {
+                while (IS.read(data).also { getPer = it } != -1) {
                     length += getPer
                     byteArrayOutputStream.write(data, 0, getPer)
                 }
-                `is`.close()
+                IS.close()
                 byteArrayOutputStream.close()
                 return String(byteArrayOutputStream.toByteArray()).trim { it <= ' ' }
             }
         } catch (e: IOException) {
+            println(e)
             e.printStackTrace()
         }
         return null
@@ -77,16 +76,15 @@ class SSLSelfSender {
         var crtInput: InputStream? = null
         try {
             // 載入憑證檔
-            crtInput = context.assets.open("serverForssl.crt")
+//            crtInput = BufferedInputStream(FileInputStream("serverForssl.crt"))
+            crtInput = context.assets.open("crt/serverForssl.crt")
             val cf = CertificateFactory.getInstance("X.509")
             val caInput: InputStream = BufferedInputStream(crtInput)
             val ca = cf.generateCertificate(caInput)
             trustStore!!.load(null, null)
             trustStore!!.setCertificateEntry("ca", ca)
-            val tmfAlgorithm =
-                TrustManagerFactory.getDefaultAlgorithm()
-            val tmf =
-                TrustManagerFactory.getInstance(tmfAlgorithm)
+            val tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm()
+            val tmf = TrustManagerFactory.getInstance(tmfAlgorithm)
             tmf.init(trustStore)
             sslContext = SSLContext.getInstance("TLS")
             sslContext.init(null, tmf.trustManagers, null)
@@ -109,5 +107,27 @@ class SSLSelfSender {
             }
         }
         return sslContext
+    }
+
+    fun jugeCrtDomain(context: Context ,urlString: String?): Boolean?{
+        var result:Boolean? = null
+        val caInput = context.assets.open("crt/serverForssl.crt")
+        if (caInput == null) {
+            return result
+        }
+        val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
+        val ca: X509Certificate = caInput.use {
+            cf.generateCertificate(it) as X509Certificate
+        }
+        System.out.println("ca=" + ca.subjectDN)
+        val subjectDNameArray = ca.subjectDN.name.split(".")
+        println(subjectDNameArray[1])
+        if (urlString!!.contains(subjectDNameArray[1])){
+            result = true
+        }else{
+            result = false
+        }
+        caInput.close()
+        return result
     }
 }

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -10,8 +11,8 @@ android {
         applicationId "armymart.cloud.ec"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,10 +35,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'androidx.security:security-crypto:1.0.0-alpha02'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:17.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    compile 'com.jaredrummler:android-device-names:2.0.0'
+    implementation 'com.jaredrummler:android-device-names:2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.4.10"
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
     implementation 'com.lahm.library:easy-protector-release:latest.release'

@@ -24,11 +24,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import armymart.cloud.ec.Device.DeviceUuidFactory
 import armymart.cloud.ec.KeyStore.KeyStoreHelper
+import armymart.cloud.ec.KeyStore.SSLSelfSender
 import armymart.cloud.ec.KeyStore.SharedPreferencesHelper
+import armymart.cloud.ec.RSA.Base64
 import armymart.cloud.ec.RSA.RSACrypt
 import armymart.cloud.ec.Signature.SignatureDialogFragment
 import armymart.cloud.ec.Until.CommonFun
 import armymart.cloud.ec.Until.CommonObject
+import com.google.firebase.iid.FirebaseInstanceId
 import com.jaredrummler.android.device.DeviceName
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
@@ -41,11 +44,13 @@ import kotlin.concurrent.thread
 import kotlin.concurrent.timerTask
 
 @RequiresApi(Build.VERSION_CODES.O)
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var webView : WebView
     private lateinit var keyStoreHelper: KeyStoreHelper
     private lateinit var preferencesHelper: SharedPreferencesHelper
     private var detectIsQRCode = false
+    var MainAlive = false
+
     private class checkstatValue {
         var TP:String? = ""
         var Status:String? = ""
@@ -72,8 +77,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         KeyStoreInit()
         judeKey()
-//        getEmail(null)
+        CommonFun().clearAllCookies()
+        FirebaseAction()
         UIInit()
+    }
+
+    private fun FirebaseAction(){
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(this){
+            instanceIdResult ->
+            if (!instanceIdResult.isSuccessful){
+                print(instanceIdResult.exception)
+                return@addOnCompleteListener
+            }
+            println(instanceIdResult.getResult()?.token)
+            CommonObject.deviceToken = instanceIdResult.getResult()?.token
+        }
     }
 
     private fun detectAction(){
@@ -85,13 +103,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun closeAppAction(){
-        var builder = AlertDialog.Builder(this)
-        builder.setTitle("您的手機有有越獄或是模擬器器開啟app")
-        builder.setMessage("即將關閉")
-        builder.setPositiveButton("確定",{ dialogInterface: DialogInterface?, which: Int ->
-            finish()
-        })
-        builder.show()
+        runOnUiThread(){
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("您的手機有有越獄或是模擬器器開啟app")
+            builder.setMessage("即將關閉")
+            builder.setPositiveButton("確定",{ dialogInterface: DialogInterface?, which: Int ->
+                finish()
+            })
+            builder.show()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -130,14 +150,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!CommonFun().judgment(this)){
-            closeAppAction()
-        }else {
+//        if (!CommonFun().judgment(this)){
+//            closeAppAction()
+//        }else {
             detectAction()
-        }
+//        }
     }
 
     private fun UIInit(){
+        MainAlive = true
+        CommonObject.mainActivity = this
         webView = findViewById(R.id.webview)
         webView.settings.javaScriptEnabled = true
         webView.getSettings().setDomStorageEnabled(true)
@@ -171,7 +193,7 @@ class MainActivity : AppCompatActivity() {
                     post(url, PostType.ChangePhone)
                 }else if (url.contains("/account/logout")){
                     preferencesHelper.cd = ""
-                }else if (url.contains("/account/order/info/go")){
+                }else if (url.contains("/account/order/info/go") || url.contains("/account/login/go")){
                     detectAction()
                 }else if (url.contains("/account/qrcode")){
                     detectIsQRCode = true
@@ -192,11 +214,33 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-//        var urlStr = "${CommonObject.Domain}index2.php"
-        var urlStr = CommonObject.Domain
-        //        val https = SSLSelfSender()
-//        https.send(this,CommonObject.Domain)
+
+        val extras = intent.extras
+        var urlStr = ""
+        val domain = CommonObject.Domain
+
+        if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
+            urlStr = "${domain}${CommonObject.DomainMain}"
+        }else {
+            urlStr = extras?.get("store_href").toString()
+        }
+//        SSLAction(domain)
+            val https = SSLSelfSender()
+            https.send(this,urlStr)
         webView.loadUrl(urlStr)
+
+    }
+
+    private fun SSLAction(domain:String){
+//        Thread{
+//            val https = SSLSelfSender()
+//            val result = https.send(this,domain)
+//        }.start()
+        val SSLSelfSender = SSLSelfSender()
+        val result = SSLSelfSender.jugeCrtDomain(this,domain)
+        if (result == null || !result!!){
+            closeAppAction()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -224,9 +268,8 @@ class MainActivity : AppCompatActivity() {
             if (detectIsQRCode){
                 detectIsQRCode = true
                 runOnUiThread(){
-                    webView.loadUrl("${CommonObject.Domain}")
+                    webView.loadUrl(CommonObject.Domain)
                 }
-
             }
 
             Timer().schedule(timerTask {
@@ -394,19 +437,20 @@ class MainActivity : AppCompatActivity() {
         deviceUuidFactory.DeviceUuidFactory(this)
 //        val daValue = "${preferencesHelper.getUserEmail()}${getDeviceName()}${deviceUuidFactory.getDeviceUuid()}"
         val daValue = "${Build.BRAND}${getDeviceName()}${deviceUuidFactory.getDeviceUuid()}"
-        val da = URLEncoder.encode(RSACrypt.encryptByPrivateKey(daValue,privatekey), "UTF-8")
+        val da = URLEncoder.encode(RSACrypt.sign(daValue,privatekey), "UTF-8")
+        val ds = URLEncoder.encode(Base64.encode(daValue.toByteArray()),"UTF-8")
         var postURL:String? = null
         when (type){
             PostType.Register -> {
                 preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
-                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}"
+                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainRegister}"
                 webView.postUrl(postURL,postData.toByteArray())
             }
 
             PostType.Verify -> {
                 preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
-                postData = "cd=${cd}&da=${da}&device=${device}"
+                postData = "cd=${cd}&da=${da}&device=${device}&ds=${ds}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainVerify}"
                 webView.postUrl(postURL,postData.toByteArray())
             }
@@ -418,14 +462,14 @@ class MainActivity : AppCompatActivity() {
                 preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,publicKey)
                 val da = URLEncoder.encode(RSACrypt.encryptByPrivateKey(daValue,privatekey), "UTF-8")
                 val pc = URLEncoder.encode(RSACrypt.publicKeyToPemStr(publicKey), "UTF-8")
-                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}"
+                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainChangephone}"
                 webView.postUrl(postURL,postData.toByteArray())
             }
 
             PostType.WebVerify -> {
                 preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
-                postData = "cd=${cd}&da=${da}&device=${device}"
+                postData = "cd=${cd}&da=${da}&device=${device}&ds=${ds}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainWebVerify}"
                 webView.postUrl(postURL,postData.toByteArray())
             }

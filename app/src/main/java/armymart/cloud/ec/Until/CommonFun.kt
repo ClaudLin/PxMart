@@ -3,6 +3,7 @@ package armymart.cloud.ec.Until
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
+import android.webkit.CookieManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import armymart.cloud.ec.KeyStore.SharedPreferencesHelper
@@ -64,6 +65,12 @@ class CommonFun {
             }
         }
         return  Info
+    }
+
+    fun clearAllCookies(){
+        CookieManager.getInstance().removeSessionCookies({ valueCallback ->
+
+        })
     }
 
     fun judgment(context: Context):Boolean{
