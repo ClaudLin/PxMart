@@ -1,6 +1,0 @@
-framework module Pods________ {
-  umbrella header "Pods-陸軍服裝供售站-umbrella.h"
-
-  export *
-  module * { export * }
-}
