@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name = "陸軍服裝供售站"
