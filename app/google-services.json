@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:599473436692:android:6e95fbf94e5dfb1dbdcf01",
         "android_client_info": {
-          "package_name": "armymart.cloud.ec"
+          "package_name": "armymart.cloudtest.ec"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "599473436692-1s1d5dn77dpmnie3b351mlpdop18os6m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "armymart.cloud.ec",
+            "package_name": "armymart.cloudtest.ec",
             "certificate_hash": "282ed23ee39df58bbe09e7e82121d010f3ac12eb"
           }
         },

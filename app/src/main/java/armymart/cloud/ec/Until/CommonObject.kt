@@ -1,6 +1,5 @@
 package armymart.cloud.ec.Until
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Build
 import armymart.cloud.ec.MainActivity

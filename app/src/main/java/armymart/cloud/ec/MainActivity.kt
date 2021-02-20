@@ -3,6 +3,7 @@ package armymart.cloud.ec
 import android.Manifest
 import android.accounts.AccountManager
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -22,6 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import armymart.cloud.ec.Device.DeviceUuidFactory
 import armymart.cloud.ec.KeyStore.KeyStoreHelper
 import armymart.cloud.ec.KeyStore.SSLSelfSender
@@ -31,6 +33,7 @@ import armymart.cloud.ec.RSA.RSACrypt
 import armymart.cloud.ec.Signature.SignatureDialogFragment
 import armymart.cloud.ec.Until.CommonFun
 import armymart.cloud.ec.Until.CommonObject
+import armymart.cloud.ec.detectScreenShot.ScreenShot
 import com.google.firebase.iid.FirebaseInstanceId
 import com.jaredrummler.android.device.DeviceName
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,26 +46,31 @@ import java.util.*
 import kotlin.concurrent.thread
 import kotlin.concurrent.timerTask
 
+
 @RequiresApi(Build.VERSION_CODES.O)
-class MainActivity : AppCompatActivity(){
-    private lateinit var webView : WebView
+class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
     private lateinit var keyStoreHelper: KeyStoreHelper
     private lateinit var preferencesHelper: SharedPreferencesHelper
     private var detectIsQRCode = false
+    private val mScreenShot: ScreenShot = ScreenShot.getInstance()
+    private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 456
+
     var MainAlive = false
 
     private class checkstatValue {
-        var TP:String? = ""
-        var Status:String? = ""
-        var OrderNo:String? = ""
-        var Timer:Long? = 0
-        var cd:String? = ""
+        var TP: String? = ""
+        var Status: String? = ""
+        var OrderNo: String? = ""
+        var Timer: Long? = 0
+        var cd: String? = ""
     }
 
     private enum class PostType {
-        Register ,ChangePhone ,Verify ,WebVerify
+        Register, ChangePhone, Verify, WebVerify
     }
-    companion object{
+
+    companion object {
         fun newInstance(): SignatureDialogFragment {
             val args = Bundle()
             val fragment = SignatureDialogFragment()
@@ -75,6 +83,9 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+           println("123")
+        }
         KeyStoreInit()
         judeKey()
         CommonFun().clearAllCookies()
@@ -82,10 +93,9 @@ class MainActivity : AppCompatActivity(){
         UIInit()
     }
 
-    private fun FirebaseAction(){
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(this){
-            instanceIdResult ->
-            if (!instanceIdResult.isSuccessful){
+    private fun FirebaseAction() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(this) { instanceIdResult ->
+            if (!instanceIdResult.isSuccessful) {
                 print(instanceIdResult.exception)
                 return@addOnCompleteListener
             }
@@ -94,20 +104,25 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun detectAction(){
+    private fun detectAction() {
         println(preferencesHelper.cd)
-        if (preferencesHelper.cd != ""){
-            val decryptCd = URLEncoder.encode(RSACrypt.decryptByPrivateKey(preferencesHelper.cd, RSACrypt.getPrivateKey(preferencesHelper)), "UTF-8").toUpperCase()
-            poolingSGTime(decryptCd ,0 ,"${CommonObject.Domain}${CommonObject.checkstat}")
+        if (preferencesHelper.cd != "") {
+            val decryptCd = URLEncoder.encode(
+                RSACrypt.decryptByPrivateKey(
+                    preferencesHelper.cd,
+                    RSACrypt.getPrivateKey(preferencesHelper)
+                ), "UTF-8"
+            ).toUpperCase()
+            poolingSGTime(decryptCd, 0, "${CommonObject.Domain}${CommonObject.checkstat}")
         }
     }
 
-    private fun closeAppAction(){
-        runOnUiThread(){
+    private fun closeAppAction() {
+        runOnUiThread() {
             var builder = AlertDialog.Builder(this)
             builder.setTitle("您的手機有有越獄或是模擬器器開啟app")
             builder.setMessage("即將關閉")
-            builder.setPositiveButton("確定",{ dialogInterface: DialogInterface?, which: Int ->
+            builder.setPositiveButton("確定", { dialogInterface: DialogInterface?, which: Int ->
                 finish()
             })
             builder.show()
@@ -115,7 +130,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun judeKey(){
+    private fun judeKey() {
         if (preferencesHelper.priKey == "" || preferencesHelper.priKey == null || preferencesHelper.pubKey == "" || preferencesHelper.pubKey == null) {
             CommonFun().generateSaveKey(preferencesHelper)
         }
@@ -127,37 +142,117 @@ class MainActivity : AppCompatActivity(){
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode){
+
+        when (requestCode) {
             123 -> {
                 if (grantResults.count() > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this,"沒給email權限", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "沒給email權限", Toast.LENGTH_LONG).show()
                     CommonFun().closeApp(this)
-                }else{
+                } else {
                     startGetEmail()
+                }
+            }
+            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // do your stuff
+                } else {
+                    println("MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE")
                 }
             }
         }
     }
 
-
     override fun onBackPressed() {
-        if (webview.canGoBack()){
+        if (webview.canGoBack()) {
             webview.goBack()
-        }else{
+        } else {
             super.onBackPressed()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!CommonFun().judgment(this)){
+        if (!CommonFun().judgment(this)) {
             closeAppAction()
-        }else {
+        } else {
             detectAction()
+            startListener()
         }
     }
 
-    private fun UIInit(){
+    private fun startListener(){
+        mScreenShot.register(this) { path ->
+            runOnUiThread() {
+                var builder = AlertDialog.Builder(this)
+                builder.setTitle("截圖內可能包含個人資訊，敬請妥善保管確保使用安全")
+                builder.setMessage("")
+                builder.setPositiveButton("確定", { dialogInterface: DialogInterface?, which: Int ->
+                })
+                builder.show()
+            }
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    override fun onPause() {
+        super.onPause()
+        mScreenShot.unregister()
+    }
+
+    fun checkPermissionREAD_EXTERNAL_STORAGE(
+        context: Context?
+    ): Boolean {
+        val currentAPIVersion = Build.VERSION.SDK_INT
+        return if (currentAPIVersion >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) !== PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
+                    showDialog(
+                        "External storage", context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                } else {
+                    ActivityCompat
+                        .requestPermissions(
+                            this,
+                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                        )
+                }
+                false
+            } else {
+                true
+            }
+        } else {
+            true
+        }
+    }
+
+    fun showDialog(msg: String, context: Context?, permission: String) {
+        val alertBuilder =
+            AlertDialog.Builder(context!!)
+        alertBuilder.setCancelable(true)
+        alertBuilder.setTitle("Permission necessary")
+        alertBuilder.setMessage("$msg permission is necessary")
+        alertBuilder.setPositiveButton(
+            android.R.string.yes
+        ) { dialog, which ->
+            ActivityCompat.requestPermissions(
+                (context as Activity?)!!, arrayOf(permission),
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+            )
+        }
+        val alert = alertBuilder.create()
+        alert.show()
+    }
+
+    private fun UIInit() {
         MainAlive = true
         CommonObject.mainActivity = this
         webView = findViewById(R.id.webview)
@@ -167,7 +262,7 @@ class MainActivity : AppCompatActivity(){
         webView.settings.allowUniversalAccessFromFileURLs = true
         webView.settings.allowFileAccessFromFileURLs = true
         webView.settings.domStorageEnabled = true
-        webView.webViewClient = object: WebViewClient(){
+        webView.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 view?.loadUrl(url)
@@ -177,27 +272,29 @@ class MainActivity : AppCompatActivity(){
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
 
-                if (url!!.contains("/api/phonesign/go/checkstat/")){
-                    val account =  CommonFun().getInfo(url, CommonFun.InfoType.account
+                if (url!!.contains("/api/phonesign/go/checkstat/")) {
+                    val account = CommonFun().getInfo(
+                        url, CommonFun.InfoType.account
                     )
-                    val time =  CommonFun().getInfo(url, CommonFun.InfoType.time)?.toInt()!! *1000 .toLong()
-                    poolingTime(account!!,time,"${CommonObject.Domain}${CommonObject.checkstat}")
+                    val time =
+                        CommonFun().getInfo(url, CommonFun.InfoType.time)?.toInt()!! * 1000.toLong()
+                    poolingTime(account!!, time, "${CommonObject.Domain}${CommonObject.checkstat}")
 
 //                    val intent = Intent(this@MainActivity, SignatureActivity::class.java)
 //                    startActivity(intent)
-                }else if (url.contains("/account/phoneauth/go/register")){
+                } else if (url.contains("/account/phoneauth/go/register")) {
                     post(url, PostType.Register)
-                }else if (url.contains("/account/phoneauth/go/verify")){
+                } else if (url.contains("/account/phoneauth/go/verify")) {
                     post(url, PostType.Verify)
-                }else if (url.contains("/account/phoneauth/go/changephone")){
+                } else if (url.contains("/account/phoneauth/go/changephone")) {
                     post(url, PostType.ChangePhone)
-                }else if (url.contains("/account/logout")){
+                } else if (url.contains("/account/logout")) {
                     preferencesHelper.cd = ""
-                }else if (url.contains("/account/order/info/go") || url.contains("/account/login/go")){
+                } else if (url.contains("/account/order/info/go") || url.contains("/account/login/go")) {
                     detectAction()
-                }else if (url.contains("/account/qrcode")){
+                } else if (url.contains("/account/qrcode")) {
                     detectIsQRCode = true
-                }else if (url.contains("/account/phoneauth/go/webverify")){
+                } else if (url.contains("/account/phoneauth/go/webverify")) {
                     post(url, PostType.WebVerify)
                 }
 
@@ -209,7 +306,10 @@ class MainActivity : AppCompatActivity(){
 //                startActivity(intent)
             }
 
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
                 return super.shouldOverrideUrlLoading(view, request)
             }
 
@@ -221,36 +321,36 @@ class MainActivity : AppCompatActivity(){
 
         if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
             urlStr = "${domain}${CommonObject.DomainMain}"
-        }else {
+        } else {
             urlStr = extras?.get("store_href").toString()
         }
 //        SSLAction(domain)
-            val https = SSLSelfSender()
-            https.send(this,urlStr)
+        val https = SSLSelfSender()
+        https.send(this, urlStr)
         webView.loadUrl(urlStr)
 
     }
 
-    private fun SSLAction(domain:String){
+    private fun SSLAction(domain: String) {
 //        Thread{
 //            val https = SSLSelfSender()
 //            val result = https.send(this,domain)
 //        }.start()
         val SSLSelfSender = SSLSelfSender()
-        val result = SSLSelfSender.jugeCrtDomain(this,domain)
-        if (result == null || !result!!){
+        val result = SSLSelfSender.jugeCrtDomain(this, domain)
+        if (result == null || !result!!) {
             closeAppAction()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode){
+        when (requestCode) {
             42 -> {
                 val accountManager = AccountManager.get(this)
                 val accounts = accountManager.getAccountsByType("com.google")
                 accounts.forEach {
-                    when(resultCode){
+                    when (resultCode) {
                         0 -> {
                             CommonFun().closeApp(this)
                         }
@@ -263,19 +363,19 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun poolingTime(cd:String ,delayTime:Long, postURL:String){
-        if ( delayTime >= 0 ){
-            if (detectIsQRCode){
+    private fun poolingTime(cd: String, delayTime: Long, postURL: String) {
+        if (delayTime >= 0) {
+            if (detectIsQRCode) {
                 detectIsQRCode = true
-                runOnUiThread(){
+                runOnUiThread() {
                     webView.loadUrl(CommonObject.Domain)
                 }
             }
 
             Timer().schedule(timerTask {
                 val client = OkHttpClient()
-                val formBody= FormBody.Builder()
-                    .add("cd", URLEncoder.encode(cd,"UTF-8"))
+                val formBody = FormBody.Builder()
+                    .add("cd", URLEncoder.encode(cd, "UTF-8"))
                     .build()
 
                 val request = Request.Builder()
@@ -289,7 +389,7 @@ class MainActivity : AppCompatActivity(){
                         override fun onFailure(call: Call, e: IOException) {
                             println("Failed to execute request")
                             e.printStackTrace()
-                            Log.e("onFailure",e.toString())
+                            Log.e("onFailure", e.toString())
                         }
 
                         @SuppressLint("SetJavaScriptEnabled")
@@ -300,27 +400,27 @@ class MainActivity : AppCompatActivity(){
                                 var checkstat = checkstatValue()
                                 checkstat.TP = dic["TP"] as? String
                                 checkstat.Status = dic["Status"] as? String
-                                checkstat.Timer = (dic["Timer"] as Int)*1000.toLong()
+                                checkstat.Timer = (dic["Timer"] as Int) * 1000.toLong()
                                 checkstat.cd = dic["cd"] as? String
                                 checkstat.OrderNo = dic["OrderNo"] as String
                                 afterResponseAction(checkstat)
-                            }catch (e: JSONException){
+                            } catch (e: JSONException) {
                                 println(e)
                             }
                         }
                     })
                 }
-            },delayTime)
+            }, delayTime)
         }
     }
 
-    private fun poolingSGTime(cd:String ,delayTime:Long, postURL:String){
-        if ( delayTime >= 0 ){
+    private fun poolingSGTime(cd: String, delayTime: Long, postURL: String) {
+        if (delayTime >= 0) {
             Timer().schedule(timerTask {
                 val client = OkHttpClient()
-                val formBody= FormBody.Builder()
-                    .add("cd", URLEncoder.encode(cd,"UTF-8"))
-                    .add("sg", URLEncoder.encode("1","UTF-8"))
+                val formBody = FormBody.Builder()
+                    .add("cd", URLEncoder.encode(cd, "UTF-8"))
+                    .add("sg", URLEncoder.encode("1", "UTF-8"))
                     .build()
 
                 val request = Request.Builder()
@@ -334,7 +434,7 @@ class MainActivity : AppCompatActivity(){
                         override fun onFailure(call: Call, e: IOException) {
                             println("Failed to execute request")
                             e.printStackTrace()
-                            Log.e("onFailure",e.toString())
+                            Log.e("onFailure", e.toString())
                         }
 
                         @SuppressLint("SetJavaScriptEnabled")
@@ -345,32 +445,36 @@ class MainActivity : AppCompatActivity(){
                                 var checkstat = checkstatValue()
                                 checkstat.TP = dic["TP"] as? String
                                 checkstat.Status = dic["Status"] as? String
-                                checkstat.Timer = (dic["Timer"] as Int)*1000.toLong()
+                                checkstat.Timer = (dic["Timer"] as Int) * 1000.toLong()
                                 checkstat.cd = dic["cd"] as? String
                                 checkstat.OrderNo = dic["OrderNo"] as String
                                 afterResponseAction(checkstat)
-                            }catch (e: JSONException){
+                            } catch (e: JSONException) {
                                 println(e)
                             }
                         }
                     })
                 }
-            },delayTime)
+            }, delayTime)
         }
     }
 
-    private fun afterResponseAction(checkstatValue: checkstatValue){
+    private fun afterResponseAction(checkstatValue: checkstatValue) {
         val status = checkstatValue.Status
         when (status) {
             "1" -> {
-                poolingTime(checkstatValue.cd!!,checkstatValue.Timer!!,"${CommonObject.Domain}${CommonObject.checkstat}")
+                poolingTime(
+                    checkstatValue.cd!!,
+                    checkstatValue.Timer!!,
+                    "${CommonObject.Domain}${CommonObject.checkstat}"
+                )
             }
             "2" -> {
                 val dialogFragment = SignatureDialogFragment.newInstance(this@MainActivity)
                 dialogFragment.cd = checkstatValue.cd
                 dialogFragment.TP = checkstatValue.TP
                 dialogFragment.OrderNo = checkstatValue.OrderNo
-                dialogFragment.show(supportFragmentManager,"signature")
+                dialogFragment.show(supportFragmentManager, "signature")
             }
             "3" -> {
                 println("停止pooling")
@@ -378,32 +482,46 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun getEmail( postType: PostType?){
-        if (preferencesHelper.userEmail == "" || preferencesHelper.userEmail == null){
-            if(checkCallingOrSelfPermission(Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED){
+    private fun getEmail(postType: PostType?) {
+        if (preferencesHelper.userEmail == "" || preferencesHelper.userEmail == null) {
+            if (checkCallingOrSelfPermission(Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
                 startGetEmail()
-            }else{
+            } else {
                 val OKlistener = DialogInterface.OnClickListener { dialog, which ->
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.GET_ACCOUNTS) ,123)
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.GET_ACCOUNTS),
+                        123
+                    )
                 }
                 val Cancellistener = DialogInterface.OnClickListener { dialog, which ->
                     CommonFun().closeApp(this)
                 }
-                AlertDialog.Builder(this).setMessage("因為存取您的Email需要拿取您的聯絡人權限").setTitle("給予拿取聯絡人權限").setPositiveButton("OK" ,OKlistener).setNegativeButton("Cancel",Cancellistener).show()
+                AlertDialog.Builder(this).setMessage("因為存取您的Email需要拿取您的聯絡人權限").setTitle("給予拿取聯絡人權限")
+                    .setPositiveButton("OK", OKlistener).setNegativeButton("Cancel", Cancellistener)
+                    .show()
             }
         }
     }
 
-    private fun startGetEmail(){
-        val intent = AccountManager.newChooseAccountIntent(null , null , arrayOf("com.google") , null , null , null , null)
-        startActivityForResult(intent,42)
+    private fun startGetEmail() {
+        val intent = AccountManager.newChooseAccountIntent(
+            null,
+            null,
+            arrayOf("com.google"),
+            null,
+            null,
+            null,
+            null
+        )
+        startActivityForResult(intent, 42)
     }
 
-    private fun getDeviceName():String{
+    private fun getDeviceName(): String {
         return DeviceName.getDeviceName().toString()
     }
 
-    private fun KeyStoreInit(){
+    private fun KeyStoreInit() {
         preferencesHelper = SharedPreferencesHelper(this)
         keyStoreHelper = KeyStoreHelper(this, preferencesHelper)
 
@@ -425,10 +543,11 @@ class MainActivity : AppCompatActivity(){
 //        }
     }
 
-    private fun post(urlStr: String, type: PostType){
-        val cd = URLEncoder.encode(CommonFun().getInfo(urlStr, CommonFun.InfoType.account)).toUpperCase()
+    private fun post(urlStr: String, type: PostType) {
+        val cd =
+            URLEncoder.encode(CommonFun().getInfo(urlStr, CommonFun.InfoType.account)).toUpperCase()
 //        if (cd != null){
-        var postData:String = ""
+        var postData: String = ""
         var privatekey = RSACrypt.getPrivateKey(preferencesHelper)
         var publicKey = RSACrypt.getPublicKey(preferencesHelper)
         val device = "android"
@@ -437,41 +556,47 @@ class MainActivity : AppCompatActivity(){
         deviceUuidFactory.DeviceUuidFactory(this)
 //        val daValue = "${preferencesHelper.getUserEmail()}${getDeviceName()}${deviceUuidFactory.getDeviceUuid()}"
         val daValue = "${Build.BRAND}${getDeviceName()}${deviceUuidFactory.getDeviceUuid()}"
-        val da = URLEncoder.encode(RSACrypt.sign(daValue,privatekey), "UTF-8")
-        val ds = URLEncoder.encode(Base64.encode(daValue.toByteArray()),"UTF-8")
-        var postURL:String? = null
-        when (type){
+        val da = URLEncoder.encode(RSACrypt.sign(daValue, privatekey), "UTF-8")
+        val ds = URLEncoder.encode(Base64.encode(daValue.toByteArray()), "UTF-8")
+        var postURL: String? = null
+        when (type) {
             PostType.Register -> {
-                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
-                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
+                preferencesHelper.cd =
+                    RSACrypt.encryptByPublicKey(cd, RSACrypt.getPublicKey(preferencesHelper))
+                postData =
+                    "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainRegister}"
-                webView.postUrl(postURL,postData.toByteArray())
+                webView.postUrl(postURL, postData.toByteArray())
             }
 
             PostType.Verify -> {
-                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
+                preferencesHelper.cd =
+                    RSACrypt.encryptByPublicKey(cd, RSACrypt.getPublicKey(preferencesHelper))
                 postData = "cd=${cd}&da=${da}&device=${device}&ds=${ds}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainVerify}"
-                webView.postUrl(postURL,postData.toByteArray())
+                webView.postUrl(postURL, postData.toByteArray())
             }
 
             PostType.ChangePhone -> {
                 CommonFun().generateSaveKey(preferencesHelper)
                 privatekey = RSACrypt.getPrivateKey(preferencesHelper)
                 publicKey = RSACrypt.getPublicKey(preferencesHelper)
-                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,publicKey)
-                val da = URLEncoder.encode(RSACrypt.encryptByPrivateKey(daValue,privatekey), "UTF-8")
+                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd, publicKey)
+                val da =
+                    URLEncoder.encode(RSACrypt.encryptByPrivateKey(daValue, privatekey), "UTF-8")
                 val pc = URLEncoder.encode(RSACrypt.publicKeyToPemStr(publicKey), "UTF-8")
-                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
+                postData =
+                    "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainChangephone}"
-                webView.postUrl(postURL,postData.toByteArray())
+                webView.postUrl(postURL, postData.toByteArray())
             }
 
             PostType.WebVerify -> {
-                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
+                preferencesHelper.cd =
+                    RSACrypt.encryptByPublicKey(cd, RSACrypt.getPublicKey(preferencesHelper))
                 postData = "cd=${cd}&da=${da}&device=${device}&ds=${ds}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainWebVerify}"
-                webView.postUrl(postURL,postData.toByteArray())
+                webView.postUrl(postURL, postData.toByteArray())
             }
         }
 //        }
@@ -487,7 +612,6 @@ class MainActivity : AppCompatActivity(){
         }
     }
 }
-
 class MyWebView(context: Context?) : WebView(context) {
     private val mDetector: GestureDetector
     override fun onTouchEvent(event: MotionEvent?): Boolean {

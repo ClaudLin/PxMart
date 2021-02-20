@@ -1,7 +1,6 @@
 package armymart.cloud.ec.KeyStore
 
 import android.content.Context
-import okhttp3.CertificatePinner
 import java.io.*
 import java.net.MalformedURLException
 import java.net.URL
