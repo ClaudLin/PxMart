@@ -57,3 +57,27 @@ public func getUniqueDeviceIdentifierAsString() -> String {
     }
     return strApplicationUUID!
 }
+
+public func ToBackground(windows:UIWindow){
+    
+    if var rootVC = UIApplication.shared.keyWindow?.rootViewController {
+        while let nextVC = rootVC.presentedViewController {
+            rootVC = nextVC
+        }
+        let enterBackgroundVC = EnterBackgroundVC()
+        enterBackgroundVC.modalPresentationStyle = .fullScreen
+        rootVC.present(enterBackgroundVC, animated: false, completion: nil)
+    }
+    
+}
+
+public func removeBlackView(windows:UIWindow){
+    if var rootVC = UIApplication.shared.keyWindow?.rootViewController {
+        while let nextVC = rootVC.presentedViewController {
+            rootVC = nextVC
+        }
+        if rootVC.isKind(of: EnterBackgroundVC.self){
+            rootVC.dismiss(animated: false, completion: nil)
+        }
+    }
+}

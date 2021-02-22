@@ -24,6 +24,7 @@
 		EA99CF2925B6BF3000355390 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA99CF2725B6BF3000355390 /* LaunchScreen.storyboard */; };
 		EA99CF3425B6BF3100355390 /* _______Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99CF3325B6BF3100355390 /* _______Tests.swift */; };
 		EA99CF3F25B6BF3100355390 /* _______UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99CF3E25B6BF3100355390 /* _______UITests.swift */; };
+		EAA99A2E25E38961005FDAEA /* EnterBackgroundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA99A2D25E38961005FDAEA /* EnterBackgroundVC.swift */; };
 		EAC740C725B700F900881D5D /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC740C625B700F900881D5D /* AlamofireManager.swift */; };
 		EAC740CB25B71B2900881D5D /* RSAUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC740CA25B71B2900881D5D /* RSAUtils.swift */; };
 		EAC740D225B73FC300881D5D /* JSPOST.html in Resources */ = {isa = PBXBuildFile; fileRef = EAC740D125B73FC300881D5D /* JSPOST.html */; };
@@ -104,6 +105,7 @@
 		EA99CF3A25B6BF3100355390 /* 陸軍服裝供售站UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "陸軍服裝供售站UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA99CF3E25B6BF3100355390 /* _______UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "_______UITests.swift"; sourceTree = "<group>"; };
 		EA99CF4025B6BF3100355390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAA99A2D25E38961005FDAEA /* EnterBackgroundVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterBackgroundVC.swift; sourceTree = "<group>"; };
 		EAC740BE25B700BC00881D5D /* Pods_陸軍服裝供售站.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = "Pods_陸軍服裝供售站.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAC740C625B700F900881D5D /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		EAC740CA25B71B2900881D5D /* RSAUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAUtils.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				EA200B8025B6D69D0098330D /* WkWebviewMana.swift */,
 				EA200B8225B6D7420098330D /* Extension.swift */,
 				EA200B8925B6E05E0098330D /* KeyChainManager.swift */,
+				EAA99A2D25E38961005FDAEA /* EnterBackgroundVC.swift */,
 				EAC740C625B700F900881D5D /* AlamofireManager.swift */,
 				EACDD30025BAB87B0005B9F2 /* PresetDescription.swift */,
 			);
@@ -479,6 +482,7 @@
 				EAC740CB25B71B2900881D5D /* RSAUtils.swift in Sources */,
 				EACDD30625BABAD30005B9F2 /* ContactsViewController.swift in Sources */,
 				EA200B8125B6D69D0098330D /* WkWebviewMana.swift in Sources */,
+				EAA99A2E25E38961005FDAEA /* EnterBackgroundVC.swift in Sources */,
 				EACDD30125BAB87B0005B9F2 /* PresetDescription.swift in Sources */,
 				EACDD2FD25BAB7F90005B9F2 /* SelectionHeaderView.swift in Sources */,
 				EA200B7D25B6D4EB0098330D /* CommonObject.swift in Sources */,
@@ -678,7 +682,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = armymart.cloud.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -703,7 +707,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = armymart.cloud.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

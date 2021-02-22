@@ -68,6 +68,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         object.sharedInstance.currentNotificationInfo?.action = notificationAction.init(rawValue: userInfo["action"] as! String)
         NotificationCenter.default.post(name: .reloadWebview, object: nil)
     }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        removeBlackView(windows: window!)
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        ToBackground(windows: window!)
+    }
 }
 
 extension AppDelegate:UNUserNotificationCenterDelegate {

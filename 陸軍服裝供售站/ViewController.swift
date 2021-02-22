@@ -49,8 +49,16 @@ class ViewController: UIViewController {
     
     private func notificationInit(){
         let notificationCenter = NotificationCenter.default
+        //從背景回來監聽
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground) ,name:UIApplication.willEnterForegroundNotification, object: nil)
+        //webview reload
         notificationCenter.addObserver(self, selector: #selector(reloadWebviewAction(noti:)), name: .reloadWebview , object: nil)
+        //監聽畫面截圖
+        notificationCenter.addObserver(self, selector: #selector(screenshots), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
+    }
+    
+    @objc private func screenshots(){
+        Alert(title: "截圖內可能包含個人資訊，敬請妥善保管確保使用安全", message: "", action: nil)
     }
     
     @objc func reloadWebviewAction(noti:Notification){
