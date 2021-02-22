@@ -951,16 +951,6 @@ library {
     sha256: "\030\026\353b\223\207\001\022\333\237\313\213\277\257HGl \303\236\001\271`\fJ\271Lp\340/9\234"
   }
 }
-library {
-  maven_library {
-    groupId: "pub.devrel"
-    artifactId: "easypermissions"
-    version: "1.2.0"
-  }
-  digests {
-    sha256: "k\006x\220#9\b/\363\026\244\324S\271\327\230\344\303\253\251\310RH\366\312y\315\276\253\203\241\201"
-  }
-}
 library_dependencies {
   library_dep_index: 1
 }
@@ -1492,12 +1482,6 @@ library_dependencies {
 library_dependencies {
   library_index: 94
 }
-library_dependencies {
-  library_index: 95
-  library_dep_index: 12
-  library_dep_index: 6
-  library_dep_index: 14
-}
 module_dependencies {
   module_name: "base"
   dependency_index: 0
@@ -1514,5 +1498,4 @@ module_dependencies {
   dependency_index: 93
   dependency_index: 94
   dependency_index: 31
-  dependency_index: 95
 }

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName_test/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hu/values-hu.xml",
+            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hu/values-hu.xml",
             "map": [
                 {
                     "source": "/Users/a1900347/.gradle/caches/transforms-2/files-2.1/177b6fb8d8a0858531da538a76ff5a04/jetified-firebase-messaging-17.3.4/res/values-hu/values.xml",

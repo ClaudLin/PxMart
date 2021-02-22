@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName_test/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-nl/values-nl.xml",
+            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-nl/values-nl.xml",
             "map": [
                 {
                     "source": "/Users/a1900347/.gradle/caches/transforms-2/files-2.1/023da651395da651737a1b47f6db6238/jetified-play-services-basement-16.0.1/res/values-nl/values.xml",

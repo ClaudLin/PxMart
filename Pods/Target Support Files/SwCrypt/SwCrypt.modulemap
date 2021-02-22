@@ -1,6 +1,0 @@
-framework module SwCrypt {
-  umbrella header "SwCrypt-umbrella.h"
-
-  export *
-  module * { export * }
-}

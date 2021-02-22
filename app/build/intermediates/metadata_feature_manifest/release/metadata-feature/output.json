@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "applicationId": "armymart.cloudtest.ec",
+  "applicationId": "armymart.cloud.ec",
   "variantType": "BASE_APK",
   "elements": [
     {
@@ -10,8 +10,8 @@
       "apkData": {
         "type": "MAIN",
         "splits": [],
-        "versionCode": 2,
-        "versionName": "2.0",
+        "versionCode": 10201,
+        "versionName": "1.2.1",
         "outputFile": "app-release.apk",
         "fullName": "release",
         "baseName": "release",

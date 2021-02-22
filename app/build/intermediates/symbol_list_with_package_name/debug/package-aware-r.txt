@@ -1,4 +1,4 @@
-armymart.cloudtest.ec
+armymart.cloud.ec
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -572,7 +572,6 @@ color browser_actions_title_color
 color button_material_dark
 color button_material_light
 color colorAccent
-color colorBlack
 color colorPrimary
 color colorPrimaryDark
 color colorWhite
@@ -995,7 +994,6 @@ id barrier
 id baseline
 id beginOnFirstDraw
 id beginning
-id blackView
 id blocking
 id body_scroll
 id bottom
@@ -1245,7 +1243,6 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
 layout banner
-layout black_view
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout custom_dialog
@@ -1342,15 +1339,12 @@ string modal_content_descriptor
 string modal_inner_content_descriptor
 string ok
 string project_id
-string rationale_ask
-string rationale_ask_again
 string reply_title
 string search_menu_title
 string signature_title
 string status_bar_notification_info_overflow
 string sync_header
 string sync_title
-string title_settings_dialog
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -1514,8 +1508,6 @@ style Base_Widget_AppCompat_TextView_SpinnerItem
 style Base_Widget_AppCompat_Toolbar
 style Base_Widget_AppCompat_Toolbar_Button_Navigation
 style Dialog_App
-style EasyPermissions
-style EasyPermissions_Transparent
 style FiamUI
 style FiamUI_Banner
 style FiamUI_CollapseButton

@@ -1,1 +1,1 @@
-armymart.cloudtest.ec
+armymart.cloud.ec

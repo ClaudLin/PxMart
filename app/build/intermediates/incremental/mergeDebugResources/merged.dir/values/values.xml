@@ -324,7 +324,6 @@
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="colorBlack">#000000</color>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorWhite">#fff</color>
@@ -603,7 +602,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="app_name">陸軍服裝供售站_測試版</string>
+    <string name="app_name">陸軍服裝供售站</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
@@ -644,18 +643,12 @@
     <string name="modal_inner_content_descriptor">modal inner</string>
     <string name="ok">Ok</string>
     <string name="project_id" translatable="false">fir-project-4794b</string>
-    <string name="rationale_ask">This app may not work correctly without the requested permissions.</string>
-    <string name="rationale_ask_again">
-        This app may not work correctly without the requested permissions.
-        Open the app settings screen to modify app permissions.
-    </string>
     <string name="reply_title">Default reply action</string>
     <string name="search_menu_title">Search</string>
     <string name="signature_title">Your signature</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="sync_header">Sync</string>
     <string name="sync_title">Sync email periodically</string>
-    <string name="title_settings_dialog">Permissions Required</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
@@ -1737,19 +1730,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
-    </style>
-    <style name="EasyPermissions" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="EasyPermissions.Transparent">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style name="FiamUI" parent="Theme.AppCompat.Light"/>
     <style name="FiamUI.Banner" parent="@style/FiamUI">
