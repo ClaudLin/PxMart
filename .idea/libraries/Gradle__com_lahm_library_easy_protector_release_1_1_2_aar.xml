@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.lahm.library:easy-protector-release:1.1.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a39ebf7d4f05a6007b40dfef72889249/jetified-easy-protector-release-1.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a39ebf7d4f05a6007b40dfef72889249/jetified-easy-protector-release-1.1.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lahm.library/easy-protector-release/1.1.2/e3470927fce913148c06a6c744228d65b3e8f36e/easy-protector-release-1.1.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lahm.library/easy-protector-release/1.1.2/a004e951928c6567bb13e3e257e2e5a220bce7b1/easy-protector-release-1.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

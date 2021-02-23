@@ -15,6 +15,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.Window
+import android.view.WindowManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity(){
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestPermission()
+//        requestPermission()
         setContentView(R.layout.activity_main)
         KeyStoreInit()
         judeKey()
@@ -167,7 +169,7 @@ class MainActivity : AppCompatActivity(){
             closeAppAction()
         }else {
             detectAction()
-            startListener()
+//            startListener()
         }
     }
 
@@ -189,6 +191,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun UIInit(){
+        val window: Window = window
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         MainAlive = true
         CommonObject.mainActivity = this
         webView = findViewById(R.id.webview)
