@@ -1,30 +1,30 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="armymart.cloud.ec"
-4    android:versionCode="10201"
-5    android:versionName="1.2.1" >
+4    android:versionCode="10202"
+5    android:versionName="1.2.2" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="23"
-8-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml
+8-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml
+9-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:6:5-67
-11-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:6:22-64
+11-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:6:5-67
+11-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:6:22-64
 12    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
-12-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:7:5-122
-12-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:7:22-83
+12-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:7:5-122
+12-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:7:22-83
 13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-13-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:8:5-81
-13-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:8:22-78
+13-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:8:5-81
+13-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:8:22-78
 14    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-14-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:9:5-85
-14-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:9:22-82
+14-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:9:5-85
+14-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:9:22-82
 15    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-15-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:10:5-79
-15-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:10:22-77
+15-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:10:5-79
+15-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:10:22-77
 16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 16-->[com.google.firebase:firebase-inappmessaging-display:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/691ee796583d808547059c2805349f07/jetified-firebase-inappmessaging-display-17.0.4/AndroidManifest.xml:11:5-79
 16-->[com.google.firebase:firebase-inappmessaging-display:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/691ee796583d808547059c2805349f07/jetified-firebase-inappmessaging-display-17.0.4/AndroidManifest.xml:11:22-76
@@ -39,56 +39,56 @@
 19-->[com.google.firebase:firebase-iid:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/26e6dd022d95bfb2d154853464210e57/jetified-firebase-iid-17.0.4/AndroidManifest.xml:26:22-79
 20
 21    <application
-21-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:11:5-36:19
+21-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:11:5-36:19
 22        android:allowBackup="true"
-22-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:12:9-35
+22-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:12:9-35
 23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 23-->[androidx.core:core:1.3.2] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/00e7b1fd90675a12faa3c0607040ffcb/core-1.3.2/AndroidManifest.xml:24:18-86
 24        android:extractNativeLibs="false"
 25        android:icon="@mipmap/ic_launcher"
-25-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:13:9-43
+25-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:13:9-43
 26        android:label="@string/app_name"
-26-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:14:9-41
+26-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:14:9-41
 27        android:networkSecurityConfig="@xml/network_security_config"
-27-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:15:9-69
+27-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:15:9-69
 28        android:requestLegacyExternalStorage="true"
-28-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:19:9-52
+28-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:19:9-52
 29        android:roundIcon="@mipmap/ic_launcher_round"
-29-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:16:9-54
+29-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:16:9-54
 30        android:supportsRtl="true"
-30-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:17:9-35
+30-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:17:9-35
 31        android:theme="@style/Theme.AppCompat.NoActionBar"
-31-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:18:9-59
+31-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:18:9-59
 32        android:usesCleartextTraffic="true" >
-32-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:20:9-44
+32-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:20:9-44
 33        <activity
-33-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:22:9-30:20
+33-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:22:9-30:20
 34            android:name="armymart.cloud.ec.MainActivity"
-34-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:22:19-47
+34-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:22:19-47
 35            android:configChanges="orientation|keyboardHidden|screenSize"
-35-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:23:13-76
+35-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:23:13-76
 36            android:screenOrientation="portrait" >
-36-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:24:13-51
+36-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:24:13-51
 37            <intent-filter>
-37-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:26:13-29:29
+37-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:26:13-29:29
 38                <action android:name="android.intent.action.MAIN" />
-38-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:27:17-69
-38-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:27:25-66
+38-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:27:17-69
+38-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:27:25-66
 39
 40                <category android:name="android.intent.category.LAUNCHER" />
-40-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:28:17-77
-40-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:28:27-74
+40-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:28:17-77
+40-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:28:27-74
 41            </intent-filter>
 42        </activity>
 43
 44        <service android:name="armymart.cloud.ec.MyFirebaseService.FirebaseServiceManager" >
-44-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:31:9-35:19
-44-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:31:18-74
+44-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:31:9-35:19
+44-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:31:18-74
 45            <intent-filter>
-45-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:32:13-34:29
+45-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:32:13-34:29
 46                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-46-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:33:17-77
-46-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:33:25-75
+46-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:17-77
+46-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:25-75
 47            </intent-filter>
 48        </service>
 49        <service
@@ -133,10 +133,10 @@
 71            android:exported="true" >
 71-->[com.google.firebase:firebase-messaging:17.3.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/177b6fb8d8a0858531da538a76ff5a04/jetified-firebase-messaging-17.3.4/AndroidManifest.xml:30:13-36
 72            <intent-filter android:priority="-500" >
-72-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:32:13-34:29
+72-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:32:13-34:29
 73                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-73-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:33:17-77
-73-->/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/src/main/AndroidManifest.xml:33:25-75
+73-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:17-77
+73-->/Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:25-75
 74            </intent-filter>
 75        </service>
 76

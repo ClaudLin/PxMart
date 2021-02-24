@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
+            "outputFile": "/Users/a1900347/Desktop/work/全聯/PxMart_git/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
                     "source": "/Users/a1900347/.gradle/caches/transforms-2/files-2.1/454877c7773a9c1491f14de7acba4cbd/appcompat-1.2.0/res/values-hdpi-v4/values-hdpi-v4.xml",
