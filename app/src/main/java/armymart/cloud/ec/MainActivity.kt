@@ -546,7 +546,7 @@ class MainActivity : AppCompatActivity(){
                 privatekey = RSACrypt.getPrivateKey(preferencesHelper)
                 publicKey = RSACrypt.getPublicKey(preferencesHelper)
                 preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,publicKey)
-                val da = URLEncoder.encode(RSACrypt.encryptByPrivateKey(daValue,privatekey), "UTF-8")
+                val da = URLEncoder.encode(RSACrypt.sign(daValue,privatekey), "UTF-8")
                 val pc = URLEncoder.encode(RSACrypt.publicKeyToPemStr(publicKey), "UTF-8")
                 postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainChangephone}"
