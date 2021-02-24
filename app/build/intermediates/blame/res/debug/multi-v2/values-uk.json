@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/a1900347/Desktop/work/全聯/Android/realpackeName/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-uk/values-uk.xml",
+            "outputFile": "/Users/a1900347/Desktop/work/全聯/PxMart_git/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-uk/values-uk.xml",
             "map": [
                 {
                     "source": "/Users/a1900347/.gradle/caches/transforms-2/files-2.1/40bbd0d1ab8d68e4bae9f73fa4db49a0/jetified-play-services-base-16.0.1/res/values-uk/values.xml",
