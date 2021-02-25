@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
 MERGED from [androidx.core:core-ktx:1.3.2] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/90ed9c665cc0bf9ccc2136cb08e1884f/jetified-core-ktx-1.3.2/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-inappmessaging-display:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/691ee796583d808547059c2805349f07/jetified-firebase-inappmessaging-display-17.0.4/AndroidManifest.xml:2:1-22:12
 MERGED from [com.google.firebase:firebase-inappmessaging:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/d715cd1a419c80e3d6381ccca57efbc6/jetified-firebase-inappmessaging-17.0.4/AndroidManifest.xml:2:1-21:12
@@ -66,22 +66,22 @@ MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/a1900347/.gradle/cach
 MERGED from [com.google.firebase:protolite-well-known-types:16.0.1] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/913414a71960e8a91d2edce1dcdf1364/jetified-protolite-well-known-types-16.0.1/AndroidManifest.xml:2:1-11:12
 MERGED from [io.reactivex.rxjava2:rxandroid:2.0.2] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/c960746058bf6cb616e9f6a1a4ec8577/jetified-rxandroid-2.0.2/AndroidManifest.xml:15:1-21:12
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/f2412dbd41542abe6957ea0a79f84ec2/jetified-play-services-measurement-base-16.0.3/AndroidManifest.xml:2:1-9:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
-INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
+INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
 	package
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:4:5-32
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-38:12
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:1-40:12
 		INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:2:11-69
@@ -120,7 +120,7 @@ ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidMa
 	android:name
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:10:22-77
 application
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:11:5-36:19
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:11:5-38:19
 MERGED from [com.google.firebase:firebase-inappmessaging-display:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/691ee796583d808547059c2805349f07/jetified-firebase-inappmessaging-display-17.0.4/AndroidManifest.xml:14:5-20:19
 MERGED from [com.google.firebase:firebase-inappmessaging-display:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/691ee796583d808547059c2805349f07/jetified-firebase-inappmessaging-display-17.0.4/AndroidManifest.xml:14:5-20:19
 MERGED from [com.google.firebase:firebase-inappmessaging:17.0.4] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/d715cd1a419c80e3d6381ccca57efbc6/jetified-firebase-inappmessaging-17.0.4/AndroidManifest.xml:13:5-19:19
@@ -169,6 +169,8 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /User
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/f2412dbd41542abe6957ea0a79f84ec2/jetified-play-services-measurement-base-16.0.3/AndroidManifest.xml:7:5-20
 	android:requestLegacyExternalStorage
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:19:9-52
+	android:extractNativeLibs
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:21:9-41
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.2] /Users/a1900347/.gradle/caches/transforms-2/files-2.1/00e7b1fd90675a12faa3c0607040ffcb/core-1.3.2/AndroidManifest.xml:24:18-86
 	android:supportsRtl
@@ -188,33 +190,33 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] /User
 	android:usesCleartextTraffic
 		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:20:9-44
 activity#armymart.cloud.ec.MainActivity
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:22:9-30:20
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:24:9-32:20
 	android:screenOrientation
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:24:13-51
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:26:13-51
 	android:configChanges
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:23:13-76
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:25:13-76
 	android:name
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:22:19-47
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:24:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:26:13-29:29
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:28:13-31:29
 action#android.intent.action.MAIN
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:27:17-69
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:29:17-69
 	android:name
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:27:25-66
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:29:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:28:17-77
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:28:27-74
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:30:27-74
 service#armymart.cloud.ec.MyFirebaseService.FirebaseServiceManager
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:31:9-35:19
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:9-37:19
 	android:name
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:31:18-74
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:18-74
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:32:13-34:29
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:34:13-36:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:17-77
+ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:35:17-77
 	android:name
-		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:33:25-75
+		ADDED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml:35:25-75
 uses-sdk
 INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/a1900347/Desktop/work/全聯/PxMart_git/app/src/main/AndroidManifest.xml
