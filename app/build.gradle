@@ -11,8 +11,8 @@ android {
         applicationId "armymart.cloud.ec"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 10203
-        versionName "1.2.3"
+        versionCode 10204
+        versionName "1.2.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
