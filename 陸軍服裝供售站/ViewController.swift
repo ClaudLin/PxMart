@@ -222,9 +222,17 @@ class ViewController: UIViewController {
         var postURL:String? = nil
         switch type {
         case .Register:
+//            let result = keyChainSaveData(data: RSAUtils().encrypt(source: cd), withIdentifier: CDKey)
+//            print(result)
+//            postURL = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainRegister)"
+//            postData =  "\"cd\":\"\(String(describing: cd))\",\"da\":\"\(da)\",\"device\":\"\(device)\",\"pc\":\"\(pc)\",\"dt\":\"\(object.sharedInstance.deviceToken)\""
+            postURL = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainRegister)"
+            RSAUtils().generateRSAKeyPair(ReCreate: true)
+            privateKey = try! PrivateKey(pemEncoded: RSAUtils().getPemString(seckeyType: .PrivateKey))
             let result = keyChainSaveData(data: RSAUtils().encrypt(source: cd), withIdentifier: CDKey)
             print(result)
-            postURL = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainRegister)"
+            da = RSAUtils().signature(str: daValue, privateKey: privateKey).urlEncoded()
+            pc = RSAUtils().getPemString(seckeyType: .PublicKey).urlEncoded()
             postData =  "\"cd\":\"\(String(describing: cd))\",\"da\":\"\(da)\",\"device\":\"\(device)\",\"pc\":\"\(pc)\",\"dt\":\"\(object.sharedInstance.deviceToken)\""
         case .Verify:
             let result = keyChainSaveData(data: RSAUtils().encrypt(source: cd), withIdentifier: CDKey)
