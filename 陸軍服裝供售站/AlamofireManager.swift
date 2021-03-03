@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-public func alamofirePost(postURL:String ,param:[String:String] ,completion: @escaping([String:Any]?) -> Void){
+public func alamofirePostJson(postURL:String ,param:[String:String] ,completion: @escaping([String:Any]?) -> Void){
     
     let headers:HTTPHeaders =
         [
@@ -24,8 +24,26 @@ public func alamofirePost(postURL:String ,param:[String:String] ,completion: @es
             completion(nil)
         }
     })
-
 }
+
+public func alamofirePost(postURL:String ,param:[String:String] ,completion: @escaping(Data?) -> Void){
+    
+    let headers:HTTPHeaders =
+        [
+        "Content-Type": "application/x-www-form-urlencoded"
+        ]
+    _ = AF.request(postURL, method: .post ,parameters: param,headers: headers).response(completionHandler: { response in
+        switch response.result {
+        case .success(let data):
+            completion(data)
+        case .failure(let e):
+            print(e)
+            completion(nil)
+        }
+    })
+    
+}
+
 
 public func alamofireUploadPost(postURL:String ,param:[String:Any]?, imageParam:[String:UIImage]? ,completion: @escaping(String) -> Void){    
     AF.upload(multipartFormData: {(multipartFormData) in

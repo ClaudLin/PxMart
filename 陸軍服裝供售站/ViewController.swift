@@ -18,15 +18,33 @@ class ViewController: UIViewController {
     private var timer:Timer?
     private var detectIsQRCode = false
     
-    private struct checkstatValue {
-        var TP:String? = ""
+    private struct checkstatValue:Codable {
+        
+        var TP:String?
         var Status:SignatureStatus?
-        var OrderNo:String? = ""
-        var delayTime:TimeInterval = 0
-        var cd:String? = ""
+        var OrderNo:String?
+        var delayTime:TimeInterval?
+        var cd:String?
+        
+        enum CodingKeys: String, CodingKey {
+            case TP = "TP"
+            case OrderNo = "OrderNo"
+            case Status = "Status"
+            case delayTime = "Timer"
+            case cd = "cd"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            TP = try container.decodeIfPresent(String.self, forKey: .TP)
+            OrderNo = try container.decodeIfPresent(String.self, forKey: .OrderNo)
+            Status = try container.decodeIfPresent(SignatureStatus.self, forKey: .Status)
+            delayTime = try container.decodeIfPresent(TimeInterval.self, forKey: .delayTime)
+            cd = try container.decodeIfPresent(String.self, forKey: .cd)
+        }
     }
     
-    private enum SignatureStatus:String{
+    private enum SignatureStatus:String ,Codable{
         case keep = "1"
         case startSign = "2"
         case stop = "3"
@@ -124,27 +142,31 @@ class ViewController: UIViewController {
                 "sg":"1"
             ]
         alamofirePost(postURL: postURL, param: param, completion: { data in
-            guard let dic = data else {return}
-            let checkstat = self.dicToCheckstat(dic: dic)
-            self.afterResponseAction(checkstat: checkstat)
+            guard let jsonData = data else {return}
+            do {
+                let checkstat = try JSONDecoder().decode(checkstatValue.self, from: jsonData)
+                self.afterResponseAction(checkstat: checkstat)
+            }catch{
+                print(error)
+            }
         })
     }
 
-    private func dicToCheckstat(dic:[String:Any]) -> checkstatValue {
-        var checkstat = checkstatValue()
-        checkstat.TP = dic["TP"] as? String
-        checkstat.OrderNo = dic["OrderNo"] as? String
-        checkstat.delayTime = dic["Timer"] as! TimeInterval
-        checkstat.cd = dic["cd"] as? String
-        checkstat.Status = SignatureStatus(rawValue: (dic["Status"] as? String)!)
-        return checkstat
-    }
+//    private func dicToCheckstat(dic:[String:Any]) -> checkstatValue {
+//        var checkstat = checkstatValue()
+//        checkstat.TP = dic["TP"] as? String
+//        checkstat.OrderNo = dic["OrderNo"] as? String
+//        checkstat.delayTime = dic["Timer"] as! TimeInterval
+//        checkstat.cd = dic["cd"] as? String
+//        checkstat.Status = SignatureStatus(rawValue: (dic["Status"] as? String)!)
+//        return checkstat
+//    }
     
     private func afterResponseAction(checkstat:checkstatValue){
         let status = checkstat.Status
         switch status {
         case .keep:
-            poolingTime(deplayTime: checkstat.delayTime)
+            poolingTime(deplayTime: checkstat.delayTime ?? 0)
         case .startSign:
             DispatchQueue.main.async {
                 let vc = SignatureVC()
@@ -202,9 +224,14 @@ class ViewController: UIViewController {
         [
             "cd":cd
         ]
-        alamofirePost(postURL: postURL, param: param, completion: { dic in
-            let checkstat = self.dicToCheckstat(dic: dic!)
-            self.afterResponseAction(checkstat: checkstat)
+        alamofirePost(postURL: postURL, param: param, completion: { data in
+            guard let jsonData = data else {return}
+            do {
+                let checkstat = try JSONDecoder().decode(checkstatValue.self, from: jsonData)
+                self.afterResponseAction(checkstat: checkstat)
+            }catch{
+                print(error)
+            }
         })
     }
     

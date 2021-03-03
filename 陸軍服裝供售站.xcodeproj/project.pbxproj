@@ -672,8 +672,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "陸軍服裝供售站/陸軍服裝供售站.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Distribution: CHUAN LIAN ENTERPRISE CO.,LTD. (NVS87C6DGC)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NVS87C6DGC;
 				INFOPLIST_FILE = "陸軍服裝供售站/Info.plist";
@@ -685,7 +685,7 @@
 				MARKETING_VERSION = 1.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = armymart.cloud.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Armymart Cloud EC";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -697,8 +697,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "陸軍服裝供售站/陸軍服裝供售站.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Distribution: CHUAN LIAN ENTERPRISE CO.,LTD. (NVS87C6DGC)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NVS87C6DGC;
 				INFOPLIST_FILE = "陸軍服裝供售站/Info.plist";
@@ -710,7 +710,7 @@
 				MARKETING_VERSION = 1.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = armymart.cloud.ec;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Armymart Cloud EC";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
