@@ -151,16 +151,6 @@ class ViewController: UIViewController {
             }
         })
     }
-
-//    private func dicToCheckstat(dic:[String:Any]) -> checkstatValue {
-//        var checkstat = checkstatValue()
-//        checkstat.TP = dic["TP"] as? String
-//        checkstat.OrderNo = dic["OrderNo"] as? String
-//        checkstat.delayTime = dic["Timer"] as! TimeInterval
-//        checkstat.cd = dic["cd"] as? String
-//        checkstat.Status = SignatureStatus(rawValue: (dic["Status"] as? String)!)
-//        return checkstat
-//    }
     
     private func afterResponseAction(checkstat:checkstatValue){
         let status = checkstat.Status
