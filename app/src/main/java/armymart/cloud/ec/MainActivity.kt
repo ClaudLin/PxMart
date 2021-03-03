@@ -528,7 +528,16 @@ class MainActivity : AppCompatActivity(){
         var postURL:String? = null
         when (type){
             PostType.Register -> {
-                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
+//                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,RSACrypt.getPublicKey(preferencesHelper))
+//                postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
+//                postURL = "${CommonObject.Domain}${CommonObject.DomainRegister}"
+//                webView.postUrl(postURL,postData.toByteArray())
+                CommonFun().generateSaveKey(preferencesHelper)
+                privatekey = RSACrypt.getPrivateKey(preferencesHelper)
+                publicKey = RSACrypt.getPublicKey(preferencesHelper)
+                preferencesHelper.cd = RSACrypt.encryptByPublicKey(cd ,publicKey)
+                val da = URLEncoder.encode(RSACrypt.sign(daValue,privatekey), "UTF-8")
+                val pc = URLEncoder.encode(RSACrypt.publicKeyToPemStr(publicKey), "UTF-8")
                 postData = "cd=${cd}&da=${da}&pc=${pc}&device=${device}&dt=${CommonObject.deviceToken}"
                 postURL = "${CommonObject.Domain}${CommonObject.DomainRegister}"
                 webView.postUrl(postURL,postData.toByteArray())
