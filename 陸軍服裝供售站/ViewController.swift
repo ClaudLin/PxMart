@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import SwiftyRSA
 class ViewController: UIViewController {
+    
     private var CDKey = "CDKey"
     private var WKWebview:WKWebView?
     private var isNeedPost = false
@@ -23,7 +24,7 @@ class ViewController: UIViewController {
         var TP:String?
         var Status:SignatureStatus?
         var OrderNo:String?
-        var delayTime:TimeInterval?
+        var delayTime:TimeInterval
         var cd:String?
         
         enum CodingKeys: String, CodingKey {
@@ -39,7 +40,7 @@ class ViewController: UIViewController {
             TP = try container.decodeIfPresent(String.self, forKey: .TP)
             OrderNo = try container.decodeIfPresent(String.self, forKey: .OrderNo)
             Status = try container.decodeIfPresent(SignatureStatus.self, forKey: .Status)
-            delayTime = try container.decodeIfPresent(TimeInterval.self, forKey: .delayTime)
+            delayTime = try container.decodeIfPresent(TimeInterval.self, forKey: .delayTime) ?? 0
             cd = try container.decodeIfPresent(String.self, forKey: .cd)
         }
     }
@@ -156,7 +157,7 @@ class ViewController: UIViewController {
         let status = checkstat.Status
         switch status {
         case .keep:
-            poolingTime(deplayTime: checkstat.delayTime ?? 0)
+            poolingTime(deplayTime: checkstat.delayTime)
         case .startSign:
             DispatchQueue.main.async {
                 let vc = SignatureVC()
