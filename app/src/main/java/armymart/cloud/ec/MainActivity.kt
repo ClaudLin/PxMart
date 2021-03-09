@@ -4,14 +4,17 @@ import android.Manifest
 import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -66,6 +69,19 @@ class MainActivity : AppCompatActivity(){
         var cd:String? = ""
     }
 
+
+    private class androidVersionInfo() {
+        var android_version:String? = ""
+        var android_min_version:String? = ""
+        var android_version_description:String? = ""
+        var android_min_version_description:String? = ""
+        var android_os_version:String? = ""
+        var android_os_min_version:String? = ""
+        var android_os_version_description:String? = ""
+        var android_os_min_version_description:String? = ""
+    }
+
+
     private enum class PostType {
         Register ,ChangePhone ,Verify ,WebVerify
     }
@@ -81,13 +97,62 @@ class MainActivity : AppCompatActivity(){
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        requestPermission()
         setContentView(R.layout.activity_main)
-        KeyStoreInit()
-        judeKey()
+        checkVersion()
         CommonFun().clearAllCookies()
-        FirebaseAction()
-        UIInit()
+        KeyStoreInit()
+    }
+
+    private fun checkVersion(){
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .addHeader("Content-Type", "application/json")
+            .url("${CommonObject.Domain}${CommonObject.appVersion}")
+            .build()
+        val response = client.newCall(request)
+        thread {
+            response.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request")
+                    e.printStackTrace()
+                    Log.e("onFailure",e.toString())
+                }
+
+                @SuppressLint("SetJavaScriptEnabled")
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val responseStr = response.body?.string()
+                        val dic = JSONObject(responseStr)
+                        val versionInfoJson = dic["android"] as JSONObject
+                        val versionInfo = androidVersionInfo()
+                        versionInfo.android_min_version = versionInfoJson["android_min_version"].toString()
+                        versionInfo.android_min_version_description = versionInfoJson["android_min_version_description"].toString()
+                        versionInfo.android_os_min_version = versionInfoJson["android_os_min_version"].toString()
+                        versionInfo.android_os_min_version_description = versionInfoJson["android_os_min_version_description"].toString()
+                        versionInfo.android_os_version = versionInfoJson["android_os_version"].toString()
+                        versionInfo.android_os_version_description = versionInfoJson["android_os_version_description"].toString()
+                        versionInfo.android_version = versionInfoJson["android_version"].toString()
+                        versionInfo.android_version_description = versionInfoJson["android_version_description"].toString()
+                        val currentVersionCode = BuildConfig.VERSION_CODE.toDouble()
+                        val currentOSVersion:Double = Build.VERSION.RELEASE.toDouble()
+                        val minOSVersion = versionInfo.android_os_min_version!!.toDouble()
+                        val minAppVersion = versionInfo.android_min_version!!.toDouble()
+                        if (currentOSVersion < minOSVersion) {
+                            OSVersionAlert(versionInfo.android_os_min_version_description!!)
+                        }else if (currentVersionCode < minAppVersion){
+                            appVersionAlert(versionInfo.android_min_version_description!!)
+                        } else {
+                            judeKey()
+                            FirebaseAction()
+                            UIInit()
+                        }
+
+                    }catch (e: JSONException){
+                        println(e)
+                    }
+                }
+            })
+        }
     }
 
     private fun FirebaseAction(){
@@ -99,6 +164,34 @@ class MainActivity : AppCompatActivity(){
             }
             println(instanceIdResult.getResult()?.token)
             CommonObject.deviceToken = instanceIdResult.getResult()?.token
+        }
+    }
+
+    private fun OSVersionAlert(Str:String){
+        runOnUiThread(){
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle(Str)
+            builder.setMessage("")
+            builder.setPositiveButton("確定",{ dialogInterface: DialogInterface?, which: Int ->
+                startActivity(Intent(Settings.ACTION_SETTINGS))
+            })
+            builder.show()
+        }
+    }
+
+    private fun appVersionAlert(Str:String){
+        runOnUiThread(){
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle(Str)
+            builder.setMessage("")
+            builder.setPositiveButton("確定",{ dialogInterface: DialogInterface?, which: Int ->
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+                }
+            })
+            builder.show()
         }
     }
 
@@ -121,6 +214,8 @@ class MainActivity : AppCompatActivity(){
             builder.show()
         }
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun judeKey(){
@@ -169,6 +264,7 @@ class MainActivity : AppCompatActivity(){
             closeAppAction()
         }else {
             detectAction()
+            repeatGivenServiceSession()
 //            startListener()
         }
     }
@@ -190,79 +286,112 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun UIInit(){
-        val window: Window = window
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        MainAlive = true
-        CommonObject.mainActivity = this
-        webView = findViewById(R.id.webview)
-        webView.settings.javaScriptEnabled = true
-        webView.getSettings().setDomStorageEnabled(true)
-        webView.settings.javaScriptCanOpenWindowsAutomatically = true
-        webView.settings.allowUniversalAccessFromFileURLs = true
-        webView.settings.allowFileAccessFromFileURLs = true
-        webView.settings.domStorageEnabled = true
-        webView.webViewClient = object: WebViewClient(){
+    private fun repeatGivenServiceSession(){
+        val delayTime = 60*15*1000 .toLong()
+        Timer().schedule(timerTask {
+            val client = OkHttpClient()
+            val formBody= FormBody.Builder()
+                .add("app_platform", URLEncoder.encode("android","UTF-8"))
+                .build()
+            val request = Request.Builder()
+                .addHeader("Content-Type", "application/json")
+                .url("${CommonObject.Domain}${CommonObject.appSession}")
+                .post(formBody)
+                .build()
+            val response = client.newCall(request)
+            thread {
+                response.enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        println("Failed to execute request")
+                        e.printStackTrace()
+                        Log.e("onFailure",e.toString())
+                    }
 
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                view?.loadUrl(url)
-                return true
+                    @SuppressLint("SetJavaScriptEnabled")
+                    override fun onResponse(call: Call, response: Response) {
+                        repeatGivenServiceSession()
+                    }
+                })
             }
+        },delayTime)
+    }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
+    private fun UIInit(){
+        runOnUiThread() {
+            val window: Window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            MainAlive = true
+            CommonObject.mainActivity = this
+            webView = findViewById(R.id.webview)
+            webView.settings.javaScriptEnabled = true
+            webView.getSettings().setDomStorageEnabled(true)
+            webView.settings.javaScriptCanOpenWindowsAutomatically = true
+            webView.settings.allowUniversalAccessFromFileURLs = true
+            webView.settings.allowFileAccessFromFileURLs = true
+            webView.settings.domStorageEnabled = true
+            webView.webViewClient = object: WebViewClient(){
 
-                if (url!!.contains("/api/phonesign/go/checkstat/")){
-                    val account =  CommonFun().getInfo(url, CommonFun.InfoType.account
-                    )
-                    val time =  CommonFun().getInfo(url, CommonFun.InfoType.time)?.toInt()!! *1000 .toLong()
-                    poolingTime(account!!,time,"${CommonObject.Domain}${CommonObject.checkstat}")
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    view?.loadUrl(url)
+                    return true
+                }
+
+                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+
+                    if (url!!.contains("/api/phonesign/go/checkstat/")){
+                        val account =  CommonFun().getInfo(url, CommonFun.InfoType.account
+                        )
+                        val time =  CommonFun().getInfo(url, CommonFun.InfoType.time)?.toInt()!! *1000 .toLong()
+                        poolingTime(account!!,time,"${CommonObject.Domain}${CommonObject.checkstat}")
 
 //                    val intent = Intent(this@MainActivity, SignatureActivity::class.java)
 //                    startActivity(intent)
-                }else if (url.contains("/account/phoneauth/go/register")){
-                    post(url, PostType.Register)
-                }else if (url.contains("/account/phoneauth/go/verify")){
-                    post(url, PostType.Verify)
-                }else if (url.contains("/account/phoneauth/go/changephone")){
-                    post(url, PostType.ChangePhone)
-                }else if (url.contains("/account/logout")){
-                    preferencesHelper.cd = ""
-                }else if (url.contains("/account/order/info/go") || url.contains("/account/login/go")){
-                    detectAction()
-                }else if (url.contains("/account/qrcode")){
-                    detectIsQRCode = true
-                }else if (url.contains("/account/phoneauth/go/webverify")){
-                    post(url, PostType.WebVerify)
+                    }else if (url.contains("/account/phoneauth/go/register")){
+                        post(url, PostType.Register)
+                    }else if (url.contains("/account/phoneauth/go/verify")){
+                        post(url, PostType.Verify)
+                    }else if (url.contains("/account/phoneauth/go/changephone")){
+                        post(url, PostType.ChangePhone)
+                    }else if (url.contains("/account/logout")){
+                        preferencesHelper.cd = ""
+                    }else if (url.contains("/account/order/info/go") || url.contains("/account/login/go")){
+                        detectAction()
+                    }else if (url.contains("/account/qrcode")){
+                        detectIsQRCode = true
+                    }else if (url.contains("/account/phoneauth/go/webverify")){
+                        post(url, PostType.WebVerify)
+                    }
+
+                }
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+//                val intent = Intent(this@MainActivity,SignatureActivity::class.java)
+//                startActivity(intent)
+                }
+
+                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                    return super.shouldOverrideUrlLoading(view, request)
                 }
 
             }
 
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-//                val intent = Intent(this@MainActivity,SignatureActivity::class.java)
-//                startActivity(intent)
+            val extras = intent.extras
+            var urlStr = ""
+            val domain = CommonObject.Domain
+
+            if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
+                urlStr = "${domain}${CommonObject.DomainMain}?version=${BuildConfig.VERSION_CODE}"
+            }else {
+                urlStr = extras?.get("store_href").toString()
             }
-
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                return super.shouldOverrideUrlLoading(view, request)
-            }
-
-        }
-
-        val extras = intent.extras
-        var urlStr = ""
-        val domain = CommonObject.Domain
-
-        if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
-            urlStr = "${domain}${CommonObject.DomainMain}"
-        }else {
-            urlStr = extras?.get("store_href").toString()
-        }
 //        SSLAction(domain)
             val https = SSLSelfSender()
             https.send(this,urlStr)
-        webView.loadUrl(urlStr)
+            webView.loadUrl(urlStr)
+        }
+
 
     }
 

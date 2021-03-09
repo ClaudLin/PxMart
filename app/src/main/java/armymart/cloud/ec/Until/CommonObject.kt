@@ -11,8 +11,8 @@ object CommonObject {
     val privateKey:String? = null
     val publicKey:String? = null
 //    val Domain = "https://pxmart.brandstudio-ec.com/"
-//    val Domain = "https://pxmart2.brandstudio-ec.com/"
-    val Domain = "https://www.armymart.com.tw/"
+    val Domain = "https://pxmart2.brandstudio-ec.com/"
+//    val Domain = "https://www.armymart.com.tw/"
     val DomainRegister = "account/phoneauth/register"
     val DomainMain = "apphome"
     val DomainVerify = "account/phoneauth/verify"
@@ -25,6 +25,9 @@ object CommonObject {
     var currentNotificationInfo:notificationInfo? = null
     var deviceToken:String? = null
     var mainActivity:MainActivity? = null
+    val appVersion = "api/app_version"
+    val appSession = "api/app_session"
+    val googleStoreURL = ""
 }
 
 
