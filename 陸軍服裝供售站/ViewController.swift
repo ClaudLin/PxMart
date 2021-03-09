@@ -45,6 +45,53 @@ class ViewController: UIViewController {
         }
     }
     
+    private struct iOSVersionDic:Codable {
+        var iOS:iOSVersionInfo?
+        
+        enum CodingKeys:String ,CodingKey {
+            case iOS = "ios"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            iOS = try container.decodeIfPresent(iOSVersionInfo.self, forKey: .iOS)
+        }
+    }
+    
+    private struct iOSVersionInfo:Codable {
+        var ios_os_version_description:String?
+        var ios_os_min_version:String?
+        var ios_version_description:String?
+        var ios_version:String?
+        var ios_os_min_version_description:String?
+        var ios_min_version:String?
+        var ios_os_version:String?
+        var ios_min_version_description:String?
+        
+        enum CodingKeys: String, CodingKey {
+            case ios_os_version_description = "ios_os_version_description"
+            case ios_os_min_version = "ios_os_min_version"
+            case ios_version_description = "ios_version_description"
+            case ios_version = "ios_version"
+            case ios_os_min_version_description = "ios_os_min_version_description"
+            case ios_min_version = "ios_min_version"
+            case ios_os_version = "ios_os_version"
+            case ios_min_version_description = "ios_min_version_description"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            ios_os_version_description = try container.decodeIfPresent(String.self, forKey: .ios_os_version_description)
+            ios_os_min_version = try container.decodeIfPresent(String.self, forKey: .ios_os_min_version)
+            ios_version_description = try container.decodeIfPresent(String.self, forKey: .ios_version_description)
+            ios_version = try container.decodeIfPresent(String.self, forKey: .ios_version)
+            ios_os_min_version_description = try container.decodeIfPresent(String.self, forKey: .ios_os_min_version_description)
+            ios_min_version = try container.decodeIfPresent(String.self, forKey: .ios_min_version)
+            ios_os_version = try container.decodeIfPresent(String.self, forKey: .ios_os_version)
+            ios_min_version_description = try container.decodeIfPresent(String.self, forKey: .ios_min_version_description)
+        }
+    }
+    
     private enum SignatureStatus:String ,Codable{
         case keep = "1"
         case startSign = "2"
@@ -60,10 +107,61 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        notificationInit()
-        RSAUtils().generateRSAKeyPair(ReCreate: false)
-        UIInit()
+        openAppFirstAction()
+        
         // Do any additional setup after loading the view.
+    }
+    
+    private func openAppFirstAction(){
+        
+        checkVersion(completion: { verionInfo in
+            if let v = verionInfo {
+//                let currentiOSV = self.versionToInt(versionStr: UIDevice.current.systemVersion)
+                let currentiOSV = [10,0,0]
+                let currentAppV = self.versionToInt(versionStr: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
+                let minAppVersion = self.versionToInt(versionStr: (v.iOS?.ios_min_version)!)
+                let minOSVersion = self.versionToInt(versionStr: (v.iOS?.ios_os_min_version)!)
+                if currentiOSV.lexicographicallyPrecedes(minOSVersion) {
+                    Alert(title: v.iOS?.ios_os_min_version_description ?? "", message: "", action: {
+                        if let url = URL(string: "App-Prefs:root=General&path=About") {
+                            UIApplication.shared.open(url)
+                        }
+                    })
+                }else if currentAppV.lexicographicallyPrecedes(minAppVersion) {
+                    Alert(title: v.iOS?.ios_min_version_description ?? "", message: "", action: {
+                        if let url = URL(string: CommonURL.sharedInstance.appleStoreUrl) {
+                            UIApplication.shared.open(url)
+                        }
+                    })
+                } else {
+                    self.notificationInit()
+                    RSAUtils().generateRSAKeyPair(ReCreate: false)
+                    self.UIInit()
+                }
+            }
+        })
+    }
+    
+    private func versionToInt(versionStr:String) -> [Int]{
+        return versionStr.components(separatedBy: ".").map { Int.init($0) ?? 0 }
+    }
+    
+    private func checkVersion(completion: @escaping((iOSVersionDic?)->Void)){
+        alamofire(urlStr: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.appVersion)", completion: { data in
+            guard let jsonData = data
+            else {
+                completion (nil)
+                return
+            }
+            do {
+                let verionInfo = try JSONDecoder().decode(iOSVersionDic.self, from: jsonData)
+                completion(verionInfo)
+                
+            }catch{
+                completion (nil)
+                print(error)
+            }
+        })
     }
     
     private func notificationInit(){
@@ -94,7 +192,22 @@ class ViewController: UIViewController {
             }
         }else {
             detectAction()
+            repeatGivenServiceSession()
         }
+    }
+    
+
+    
+    private func repeatGivenServiceSession(){
+        giveServiceSession()
+        Timer.scheduledTimer(withTimeInterval: 60 * 15, repeats: true, block: { _ in
+            self.giveServiceSession()
+        })
+    }
+    
+    private func giveServiceSession(){
+        alamofirePost(postURL: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.appSession)", param: ["app_platform":"iOS"], completion: { _ in
+        })
     }
     
     private func addGesture(){
@@ -181,7 +294,8 @@ class ViewController: UIViewController {
         view.addSubview(WKWebview!)
         addGesture()
         if object().currentNotificationInfo?.store_href == nil || object().currentNotificationInfo?.store_href == "" {
-            WKWebview!.load(URLRequest(url: URL(string: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)")!))
+            let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
+            WKWebview!.load(URLRequest(url: URL(string: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)?version=\(version)")!))
 //            WKWebview!.load(URLRequest(url: URL(string: "https://tw.yahoo.com")!))
         }else {
             WKWebview!.load(URLRequest(url: URL(string: (object().currentNotificationInfo?.store_href)!)!))

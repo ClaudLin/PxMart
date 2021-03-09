@@ -9,6 +9,30 @@
 import Foundation
 import Alamofire
 
+public func alamofire(urlStr:String ,completion: @escaping((Data?) -> Void)){
+    AF.request(urlStr).response(completionHandler: { response in
+        switch response.result {
+        case .success(let data):
+            completion(data)
+        case .failure(let e):
+            print(e)
+            completion(nil)
+        }
+    })
+}
+
+public func alamofireToJson(urlStr:String ,completion: @escaping(([String : Any]?) -> Void)){
+    AF.request(urlStr).responseJSON(completionHandler: { response in
+        switch response.result {
+        case .success(let dic):
+            completion(dic as? [String : Any])
+        case .failure(let e):
+            print(e)
+            completion(nil)
+        }
+    })
+}
+
 public func alamofirePostJson(postURL:String ,param:[String:String] ,completion: @escaping([String:Any]?) -> Void){
     
     let headers:HTTPHeaders =
