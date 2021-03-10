@@ -198,22 +198,7 @@ class ViewController: UIViewController {
             }
         }else {
             detectAction()
-            repeatGivenServiceSession()
         }
-    }
-    
-
-    
-    private func repeatGivenServiceSession(){
-        giveServiceSession()
-        Timer.scheduledTimer(withTimeInterval: 60 * 15, repeats: true, block: { _ in
-            self.giveServiceSession()
-        })
-    }
-    
-    private func giveServiceSession(){
-        alamofirePost(postURL: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.appSession)", param: ["app_platform":"iOS"], completion: { _ in
-        })
     }
     
     private func addGesture(){
