@@ -14,7 +14,7 @@ object CommonObject {
     val Domain = "https://pxmart2.brandstudio-ec.com/"
 //    val Domain = "https://www.armymart.com.tw/"
     val DomainRegister = "account/phoneauth/register"
-    val DomainMain = "apphome"
+    val DomainMain = "common/apphome"
     val DomainVerify = "account/phoneauth/verify"
     val DomainWebVerify = "account/phoneauth/webverify"
     val DomainChangephone = "account/phoneauth/changephone"

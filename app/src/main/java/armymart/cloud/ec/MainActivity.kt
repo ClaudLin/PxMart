@@ -382,7 +382,7 @@ class MainActivity : AppCompatActivity(){
             val domain = CommonObject.Domain
 
             if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
-                urlStr = "${domain}${CommonObject.DomainMain}?version=${BuildConfig.VERSION_CODE}"
+                urlStr = "${domain}${CommonObject.DomainMain}&version=${BuildConfig.VERSION_CODE}"
             }else {
                 urlStr = extras?.get("store_href").toString()
             }
