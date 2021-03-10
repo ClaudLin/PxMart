@@ -134,8 +134,9 @@ class MainActivity : AppCompatActivity(){
                         versionInfo.android_version = versionInfoJson["android_version"].toString()
                         versionInfo.android_version_description = versionInfoJson["android_version_description"].toString()
                         val currentVersionCode = BuildConfig.VERSION_CODE.toDouble()
-                        val currentOSVersion:Double = Build.VERSION.RELEASE.toDouble()
-                        val minOSVersion = versionInfo.android_os_min_version!!.toDouble()
+                        val currentOSArray = Build.VERSION.RELEASE.split(".")
+                        val currentOSVersion:Double = "${currentOSArray[0]}${currentOSArray[1]}".toDouble()
+                        val minOSVersion = versionInfo.android_os_min_version!!.replace(".","").toDouble()
                         val minAppVersion = versionInfo.android_min_version!!.toDouble()
                         if (currentOSVersion < minOSVersion) {
                             OSVersionAlert(versionInfo.android_os_min_version_description!!)
