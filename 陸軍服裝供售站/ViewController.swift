@@ -116,8 +116,7 @@ class ViewController: UIViewController {
         
         checkVersion(completion: { verionInfo in
             if let v = verionInfo {
-//                let currentiOSV = self.versionToInt(versionStr: UIDevice.current.systemVersion)
-                let currentiOSV = [10,0,0]
+                let currentiOSV = self.versionToInt(versionStr: UIDevice.current.systemVersion)
                 let currentAppV = self.versionToInt(versionStr: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
                 let minAppVersion = self.versionToInt(versionStr: (v.iOS?.ios_min_version)!)
                 let minOSVersion = self.versionToInt(versionStr: (v.iOS?.ios_os_min_version)!)
@@ -295,7 +294,8 @@ class ViewController: UIViewController {
         addGesture()
         if object().currentNotificationInfo?.store_href == nil || object().currentNotificationInfo?.store_href == "" {
             let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-            WKWebview!.load(URLRequest(url: URL(string: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)?version=\(version)")!))
+            let urlStr = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)?version=\(version)"
+            WKWebview!.load(URLRequest(url: URL(string: urlStr)!))
 //            WKWebview!.load(URLRequest(url: URL(string: "https://tw.yahoo.com")!))
         }else {
             WKWebview!.load(URLRequest(url: URL(string: (object().currentNotificationInfo?.store_href)!)!))
