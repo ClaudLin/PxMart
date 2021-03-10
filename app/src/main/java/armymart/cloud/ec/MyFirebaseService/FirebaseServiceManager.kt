@@ -61,7 +61,7 @@ class FirebaseServiceManager : FirebaseMessagingService() {
         val builder = NotificationCompat.Builder(this, channelId) // Create notification with channel Id
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(data?.get("title"))
-                .setContentText("body data ${data}")
+                .setContentText("${data}")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
