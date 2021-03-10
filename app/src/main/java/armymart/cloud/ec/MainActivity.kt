@@ -264,7 +264,6 @@ class MainActivity : AppCompatActivity(){
             closeAppAction()
         }else {
             detectAction()
-            repeatGivenServiceSession()
 //            startListener()
         }
     }
@@ -284,36 +283,6 @@ class MainActivity : AppCompatActivity(){
                 builder.show()
             }
         }
-    }
-
-    private fun repeatGivenServiceSession(){
-        val delayTime = 60*15*1000 .toLong()
-        Timer().schedule(timerTask {
-            val client = OkHttpClient()
-            val formBody= FormBody.Builder()
-                .add("app_platform", URLEncoder.encode("android","UTF-8"))
-                .build()
-            val request = Request.Builder()
-                .addHeader("Content-Type", "application/json")
-                .url("${CommonObject.Domain}${CommonObject.appSession}")
-                .post(formBody)
-                .build()
-            val response = client.newCall(request)
-            thread {
-                response.enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        println("Failed to execute request")
-                        e.printStackTrace()
-                        Log.e("onFailure",e.toString())
-                    }
-
-                    @SuppressLint("SetJavaScriptEnabled")
-                    override fun onResponse(call: Call, response: Response) {
-                        repeatGivenServiceSession()
-                    }
-                })
-            }
-        },delayTime)
     }
 
     private fun UIInit(){
