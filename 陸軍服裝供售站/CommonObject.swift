@@ -13,7 +13,7 @@ public class CommonURL {
 //    let Domain = "https://pxmart.brandstudio-ec.com/"
     let Domain = "https://pxmart2.brandstudio-ec.com/"
 //    let Domain = "https://www.armymart.com.tw/"
-    let DomainMain = "apphome"
+    let DomainMain = "common/apphome"
     let DomainRegister = "account/phoneauth/register"
     let DomainVerify = "account/phoneauth/verify"
     let DomainWebVerify = "account/phoneauth/webverify"

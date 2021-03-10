@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     private var cd = ""
     private var timer:Timer?
     private var detectIsQRCode = false
+    private var HomeUrl = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)&version=\(Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? "")"
     
     private struct checkstatValue:Codable {
         
@@ -180,7 +181,13 @@ class ViewController: UIViewController {
     @objc func reloadWebviewAction(noti:Notification){
         DispatchQueue.main.async {
             let useInfo = noti.userInfo
-            self.WKWebview!.load(URLRequest(url: URL(string: useInfo!["store_href"] as! String)!))
+            var urlStr = ""
+            if useInfo!["store_href"] as? String == nil || useInfo!["store_href"] as? String == "" {
+                urlStr = self.HomeUrl
+            } else {
+                urlStr = useInfo!["store_href"] as! String
+            }
+            self.WKWebview!.load(URLRequest(url: URL(string: urlStr)!))
         }
     }
     
@@ -293,9 +300,7 @@ class ViewController: UIViewController {
         view.addSubview(WKWebview!)
         addGesture()
         if object().currentNotificationInfo?.store_href == nil || object().currentNotificationInfo?.store_href == "" {
-            let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-            let urlStr = "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.DomainMain)?version=\(version)"
-            WKWebview!.load(URLRequest(url: URL(string: urlStr)!))
+            WKWebview!.load(URLRequest(url: URL(string: HomeUrl)!))
 //            WKWebview!.load(URLRequest(url: URL(string: "https://tw.yahoo.com")!))
         }else {
             WKWebview!.load(URLRequest(url: URL(string: (object().currentNotificationInfo?.store_href)!)!))
