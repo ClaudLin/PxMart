@@ -27,6 +27,8 @@ object CommonObject {
     var mainActivity:MainActivity? = null
     val appVersion = "api/app_version"
     var isSignature = false
+    var isEnterBackground = false
+    var isFirstTime = true
 }
 
 

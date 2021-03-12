@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity(){
     private var detectIsQRCode = false
     private val mScreenShot: ScreenShot = ScreenShot.getInstance()
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 456
-    private var firstTime = true
     var MainAlive = false
 
     private class checkstatValue {
@@ -101,9 +100,9 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         checkVersion()
         KeyStoreInit()
-        if (firstTime) {
+        if (CommonObject.isFirstTime) {
             CommonFun().clearAllCookies()
-            firstTime = false
+            CommonObject.isFirstTime = false
         }
     }
 
@@ -270,12 +269,19 @@ class MainActivity : AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
+        CommonObject.isEnterBackground = false
         if (!CommonFun().judgment(this)){
             closeAppAction()
         }else {
             detectAction()
 //            startListener()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        print("onPause")
+        CommonObject.isEnterBackground = true
     }
 
     private fun requestPermission(){
@@ -561,12 +567,13 @@ class MainActivity : AppCompatActivity(){
                 poolingTime(checkstatValue.cd!!,checkstatValue.Timer!!,"${CommonObject.Domain}${CommonObject.checkstat}")
             }
             "2" -> {
-                if (!CommonObject.isSignature) {
+                if (!CommonObject.isSignature && !CommonObject.isEnterBackground) {
                     val dialogFragment = SignatureDialogFragment.newInstance(this@MainActivity)
                     dialogFragment.cd = checkstatValue.cd
                     dialogFragment.TP = checkstatValue.TP
                     dialogFragment.OrderNo = checkstatValue.OrderNo
-                    dialogFragment.show(supportFragmentManager,"signature")
+                    supportFragmentManager.beginTransaction().add(dialogFragment,"signature").commitAllowingStateLoss()
+//                    dialogFragment.show(supportFragmentManager,"signature")
                 }
             }
             "3" -> {
