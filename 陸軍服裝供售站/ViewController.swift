@@ -114,7 +114,7 @@ class ViewController: UIViewController {
     }
     
     private func openAppFirstAction(){
-        
+        notificationInit()
         checkVersion(completion: { verionInfo in
             if let v = verionInfo {
                 let currentiOSV = self.versionToInt(versionStr: UIDevice.current.systemVersion)
@@ -134,7 +134,6 @@ class ViewController: UIViewController {
                         }
                     })
                 } else {
-                    self.notificationInit()
                     RSAUtils().generateRSAKeyPair(ReCreate: false)
                     self.UIInit()
                 }
@@ -173,15 +172,10 @@ class ViewController: UIViewController {
         //監聽畫面截圖
         notificationCenter.addObserver(self, selector: #selector(screenshots), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
         //監聽推播是否動作
-        notificationCenter.addObserver(self, selector: #selector(notificationAction), name: .notificationAction, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(detectAction), name: .notificationAction, object: nil)
 
     }
     
-    @objc func notificationAction(){
-        if (object().currentNotificationInfo?.action)!.rawValue == "sign"{
-            detectAction()
-        }
-    }
     
     @objc private func screenshots(){
         Alert(title: "截圖內可能包含個人資訊，敬請妥善保管確保使用安全", message: "", action: nil)
@@ -242,7 +236,7 @@ class ViewController: UIViewController {
         })
     }
     
-    private func detectAction(){
+    @objc func detectAction(){
         if let cd = keyChainReadData(identifier: CDKey) as? String {
             let decryptCd = RSAUtils().decrypt(encryptStr: cd)
             poolingSGTime(cd: decryptCd, delayTime: 0, postURL: "\(CommonURL.sharedInstance.Domain)\(CommonURL.sharedInstance.checkstat)")

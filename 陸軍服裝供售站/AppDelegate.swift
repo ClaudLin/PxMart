@@ -110,6 +110,19 @@ extension AppDelegate:UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void){
+        let userInfo = notification.request.content.userInfo
+        
+        if let usrlStr = userInfo["store_href"] as? String {
+            if usrlStr != "" {
+                NotificationCenter.default.post(name: .reloadWebview, object: nil,userInfo: userInfo)
+            }
+        }
+        
+        if let action = userInfo["action"] as? String {
+            if action == "sign"{
+                NotificationCenter.default.post(name: .notificationAction, object: nil, userInfo: userInfo)
+            }
+        }
         completionHandler([.alert, .badge, .sound])
     }
     
@@ -117,8 +130,7 @@ extension AppDelegate:UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         object().currentNotificationInfo?.store_href = userInfo["store_href"] as? String
         object().currentNotificationInfo?.action = notificationAction.init(rawValue: userInfo["action"] as! String)
-        NotificationCenter.default.post(name: .reloadWebview, object: nil,userInfo: userInfo)
-        print(userInfo)
+        
         
     }
     
