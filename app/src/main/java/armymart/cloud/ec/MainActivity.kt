@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(){
     private var detectIsQRCode = false
     private val mScreenShot: ScreenShot = ScreenShot.getInstance()
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 456
+    private var firstTime = true
     var MainAlive = false
 
     private class checkstatValue {
@@ -99,7 +100,10 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkVersion()
-        CommonFun().clearAllCookies()
+        if (firstTime) {
+            CommonFun().clearAllCookies()
+            firstTime = false
+        }
         KeyStoreInit()
     }
 
