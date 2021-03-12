@@ -64,6 +64,21 @@ public class object {
             }
         }
     }
+    
+    private var _isSignature = false
+    var isSignature:Bool {
+        get{
+            return internalQueue.sync {
+                _isSignature
+            }
+        }
+        
+        set (newVlaue){
+            internalQueue.async(flags: .barrier) {
+                self._isSignature = newVlaue
+            }
+        }
+    }
 }
 
 public struct notificationInfo {

@@ -135,4 +135,5 @@ extension UIView {
 
 extension Notification.Name {
     static let reloadWebview = Notification.Name("reloadWebview")
+    static let notificationAction = Notification.Name("notificationAction")
 }

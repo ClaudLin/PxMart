@@ -172,6 +172,15 @@ class ViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(reloadWebviewAction(noti:)), name: .reloadWebview , object: nil)
         //監聽畫面截圖
         notificationCenter.addObserver(self, selector: #selector(screenshots), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
+        //監聽推播是否動作
+        notificationCenter.addObserver(self, selector: #selector(notificationAction), name: .notificationAction, object: nil)
+
+    }
+    
+    @objc func notificationAction(){
+        if (object().currentNotificationInfo?.action)!.rawValue == "sign"{
+            detectAction()
+        }
     }
     
     @objc private func screenshots(){
@@ -263,13 +272,16 @@ class ViewController: UIViewController {
         case .keep:
             poolingTime(deplayTime: checkstat.delayTime)
         case .startSign:
-            DispatchQueue.main.async {
+            if !object.sharedInstance.isSignature {
+                DispatchQueue.main.async {
                 let vc = SignatureVC()
                 vc.OrderNo = checkstat.OrderNo
                 vc.TP = checkstat.TP
                 vc.cd = checkstat.cd
                 self.present(vc, animated: true, completion: nil)
+                }
             }
+            
         case .stop:
             timer?.invalidate()
             print("stop pooling")

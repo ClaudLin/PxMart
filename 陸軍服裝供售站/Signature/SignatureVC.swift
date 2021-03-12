@@ -26,6 +26,7 @@ class SignatureVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        object.sharedInstance.isSignature = true
         UIInit()
     }
     
@@ -75,6 +76,7 @@ class SignatureVC: UIViewController {
     }
     
     @objc func buttonAction(button:UIButton){
+        object.sharedInstance.isSignature = false
         let tag = button.tag
         switch tag {
         case 0:

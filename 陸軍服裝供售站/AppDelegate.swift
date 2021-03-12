@@ -119,6 +119,7 @@ extension AppDelegate:UNUserNotificationCenterDelegate {
         object().currentNotificationInfo?.action = notificationAction.init(rawValue: userInfo["action"] as! String)
         NotificationCenter.default.post(name: .reloadWebview, object: nil,userInfo: userInfo)
         print(userInfo)
+        
     }
     
 }
