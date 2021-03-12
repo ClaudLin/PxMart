@@ -67,6 +67,10 @@ class FirebaseServiceManager : FirebaseMessagingService() {
                 .setAutoCancel(true)
         val mNotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotificationManager.notify(123, builder.build())
+
+        if (data?.get("action") == "sign"){
+            CommonObject.mainActivity?.detectAction()
+        }
     }
 
      private fun createNotificationChannel() {

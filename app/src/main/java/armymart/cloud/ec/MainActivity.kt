@@ -100,11 +100,11 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkVersion()
+        KeyStoreInit()
         if (firstTime) {
             CommonFun().clearAllCookies()
             firstTime = false
         }
-        KeyStoreInit()
     }
 
     private fun checkVersion(){
@@ -139,7 +139,12 @@ class MainActivity : AppCompatActivity(){
                         versionInfo.android_version_description = versionInfoJson["android_version_description"].toString()
                         val currentVersionCode = BuildConfig.VERSION_CODE.toDouble()
                         val currentOSArray = Build.VERSION.RELEASE.split(".")
-                        val currentOSVersion:Double = "${currentOSArray[0]}${currentOSArray[1]}".toDouble()
+                        var currentOSVersion:Double = 0.0
+                        if (currentOSArray.size == 1){
+                            currentOSVersion = "${currentOSArray[0]}.0".replace(".","").toDouble()
+                        }else if (currentOSArray.size == 2){
+                            currentOSVersion = "${currentOSArray[0]}${currentOSArray[1]}".toDouble()
+                        }
                         val minOSVersion = versionInfo.android_os_min_version!!.replace(".","").toDouble()
                         val minAppVersion = versionInfo.android_min_version!!.toDouble()
                         if (currentOSVersion < minOSVersion) {
@@ -200,7 +205,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun detectAction(){
+    fun detectAction(){
         println(preferencesHelper.cd)
         if (preferencesHelper.cd != ""){
             val decryptCd = URLEncoder.encode(RSACrypt.decryptByPrivateKey(preferencesHelper.cd, RSACrypt.getPrivateKey(preferencesHelper)), "UTF-8").toUpperCase()
