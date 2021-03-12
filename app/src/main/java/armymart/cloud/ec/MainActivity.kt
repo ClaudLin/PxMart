@@ -556,11 +556,13 @@ class MainActivity : AppCompatActivity(){
                 poolingTime(checkstatValue.cd!!,checkstatValue.Timer!!,"${CommonObject.Domain}${CommonObject.checkstat}")
             }
             "2" -> {
-                val dialogFragment = SignatureDialogFragment.newInstance(this@MainActivity)
-                dialogFragment.cd = checkstatValue.cd
-                dialogFragment.TP = checkstatValue.TP
-                dialogFragment.OrderNo = checkstatValue.OrderNo
-                dialogFragment.show(supportFragmentManager,"signature")
+                if (!CommonObject.isSignature) {
+                    val dialogFragment = SignatureDialogFragment.newInstance(this@MainActivity)
+                    dialogFragment.cd = checkstatValue.cd
+                    dialogFragment.TP = checkstatValue.TP
+                    dialogFragment.OrderNo = checkstatValue.OrderNo
+                    dialogFragment.show(supportFragmentManager,"signature")
+                }
             }
             "3" -> {
                 println("停止pooling")

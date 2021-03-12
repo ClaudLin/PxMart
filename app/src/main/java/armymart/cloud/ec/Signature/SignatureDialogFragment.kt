@@ -63,16 +63,22 @@ class SignatureDialogFragment: DialogFragment(), SignatureView.OnSignedListener{
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        CommonObject.isSignature = true
 
         buttonCancel.setOnClickListener {
+            CommonObject.isSignature = false
             upLoad(null,
                 singnatureResult.cancel
             )
         }
 
-        buttonClear.setOnClickListener { signatureView.clear() }
-        buttonOk.setOnClickListener {
+        buttonClear.setOnClickListener {
+            CommonObject.isSignature = false
+            signatureView.clear()
+        }
 
+        buttonOk.setOnClickListener {
+            CommonObject.isSignature = false
             val bitmap = signatureView.getSignatureBitmap()
             CommonObject.bitmap = bitmap
             upLoad(bitmap,

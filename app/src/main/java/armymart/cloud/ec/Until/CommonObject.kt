@@ -26,7 +26,7 @@ object CommonObject {
     var deviceToken:String? = null
     var mainActivity:MainActivity? = null
     val appVersion = "api/app_version"
-    val googleStoreURL = ""
+    var isSignature = false
 }
 
 
