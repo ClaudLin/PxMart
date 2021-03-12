@@ -312,7 +312,7 @@ class MainActivity : AppCompatActivity(){
             webView.getSettings().setDomStorageEnabled(true)
             webView.settings.javaScriptCanOpenWindowsAutomatically = true
             webView.settings.allowUniversalAccessFromFileURLs = true
-            webView.settings.userAgentString = "armymart_android"
+//            webView.settings.userAgentString = "armymart_android"
             webView.settings.allowFileAccessFromFileURLs = true
             webView.settings.domStorageEnabled = true
             webView.webViewClient = object: WebViewClient(){
