@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.util.Base64
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import armymart.cloud.ec.MainActivity
@@ -17,7 +18,6 @@ import kotlinx.android.synthetic.main.signature_pad.*
 import okhttp3.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.*
 
 class SignatureDialogFragment: DialogFragment(), SignatureView.OnSignedListener{
     var TP:String? = null
@@ -135,7 +135,7 @@ class SignatureDialogFragment: DialogFragment(), SignatureView.OnSignedListener{
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, stream)
         }
         val byteArray = stream.toByteArray()
-        val imgString = Base64.getEncoder().encodeToString(byteArray)
+        val imgString = Base64.encodeToString(byteArray,Base64.DEFAULT)
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("cd", cd!!)

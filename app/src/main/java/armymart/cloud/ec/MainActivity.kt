@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(){
                         var currentOSVersion:Double = 0.0
                         if (currentOSArray.size == 1){
                             currentOSVersion = "${currentOSArray[0]}.0".replace(".","").toDouble()
-                        }else if (currentOSArray.size == 2){
+                        }else if (currentOSArray.size >= 2){
                             currentOSVersion = "${currentOSArray[0]}${currentOSArray[1]}".toDouble()
                         }
                         val minOSVersion = versionInfo.android_os_min_version!!.replace(".","").toDouble()
@@ -375,7 +375,7 @@ class MainActivity : AppCompatActivity(){
             val domain = CommonObject.Domain
 
             if (extras?.get("store_href") == null || extras?.get("store_href") == "") {
-                urlStr = "${domain}${CommonObject.DomainMain}&version=${BuildConfig.VERSION_CODE}"
+                urlStr = "${domain}${CommonObject.DomainMain}&version=${BuildConfig.VERSION_NAME}"
             }else {
                 urlStr = extras?.get("store_href").toString()
             }
