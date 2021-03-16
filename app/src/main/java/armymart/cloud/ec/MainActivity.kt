@@ -21,6 +21,7 @@ import android.view.MotionEvent
 import android.view.Window
 import android.view.WindowManager
 import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -312,7 +313,13 @@ class MainActivity : AppCompatActivity(){
             webView.getSettings().setDomStorageEnabled(true)
             webView.settings.javaScriptCanOpenWindowsAutomatically = true
             webView.settings.allowUniversalAccessFromFileURLs = true
+            webView.getSettings().setSupportZoom(true)
+            webView.getSettings().setBuiltInZoomControls(true)
+            webView.getSettings().setUseWideViewPort(true)
+            webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN)
+            webView.getSettings().setLoadWithOverviewMode(true)
 //            webView.settings.userAgentString = "armymart_android"
+
             webView.settings.allowFileAccessFromFileURLs = true
             webView.settings.domStorageEnabled = true
             webView.webViewClient = object: WebViewClient(){
