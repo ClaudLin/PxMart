@@ -315,6 +315,7 @@ class MainActivity : AppCompatActivity(){
             webView.settings.allowUniversalAccessFromFileURLs = true
             webView.getSettings().setSupportZoom(true)
             webView.getSettings().setBuiltInZoomControls(true)
+            webView.getSettings().displayZoomControls = false
             webView.getSettings().setUseWideViewPort(true)
             webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN)
             webView.getSettings().setLoadWithOverviewMode(true)
