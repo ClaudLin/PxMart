@@ -11,8 +11,8 @@ import UIKit
 public class CommonURL {
     static let sharedInstance = CommonURL()
 //    let Domain = "https://pxmart.brandstudio-ec.com/"
-    let Domain = "https://pxmart2.brandstudio-ec.com/"
-//    let Domain = "https://www.armymart.com.tw/"
+//    let Domain = "https://pxmart2.brandstudio-ec.com/"
+    let Domain = "https://www.armymart.com.tw/"
     let DomainMain = "common/apphome"
     let DomainRegister = "account/phoneauth/register"
     let DomainVerify = "account/phoneauth/verify"
