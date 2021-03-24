@@ -100,7 +100,7 @@ class SignatureVC: UIViewController {
             "cd":cd!,
             "OrderNo":OrderNo!,
             "Status":result.rawValue,
-            "sf":signatureImage?.jpegData(compressionQuality: 0.7)!
+            "sf":signatureImage?.jpegData(compressionQuality: 0.7)!.base64EncodedString()
         ]
          
         var postURL = ""
