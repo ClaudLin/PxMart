@@ -320,7 +320,6 @@ class MainActivity : AppCompatActivity(){
             webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN)
             webView.getSettings().setLoadWithOverviewMode(true)
 //            webView.settings.userAgentString = "armymart_android"
-
             webView.settings.allowFileAccessFromFileURLs = true
             webView.settings.domStorageEnabled = true
             webView.webViewClient = object: WebViewClient(){
