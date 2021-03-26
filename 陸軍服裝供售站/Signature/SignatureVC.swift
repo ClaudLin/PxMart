@@ -100,7 +100,7 @@ class SignatureVC: UIViewController {
             "cd":cd!,
             "OrderNo":OrderNo!,
             "Status":result.rawValue,
-            "sf":signatureImage?.jpegData(compressionQuality: 0.7)!.base64EncodedString()
+            "sf":signatureImage?.jpegData(compressionQuality: 0.7)!.base64EncodedString() ?? ""
         ]
          
         var postURL = ""
@@ -116,6 +116,9 @@ class SignatureVC: UIViewController {
         }
         
         alamofireUploadPost(postURL: postURL, param: param, imageParam: nil, completion: {(str) in
+            if str == "Fail" {
+                Alert(title: "簽名失敗，請確認app版本是否為最新或聯絡客服回報", message: "", action: nil)
+            }
             self.dismiss(animated: true, completion: nil)
         })
         
