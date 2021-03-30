@@ -1,7 +1,11 @@
 package armymart.cloud.ec.Signature
 
+import android.content.ActivityNotFoundException
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import armymart.cloud.ec.MainActivity
 import armymart.cloud.ec.R
@@ -168,7 +173,19 @@ class SignatureDialogFragment: DialogFragment(), SignatureView.OnSignedListener{
             override fun onResponse(call: Call, response: Response) {
                 print(response)
                 val responseStr = response.body?.string()?.toLowerCase()
-                println(responseStr)
+                if (responseStr == "Fail"){
+                    val dialogBuilder = AlertDialog.Builder(activity!!)
+                    dialogBuilder.setMessage("簽名失敗，請確認app版本是否為最新或聯絡客服回報")
+                        // if the dialog is cancelable
+                        .setCancelable(false)
+                        .setPositiveButton("確定", DialogInterface.OnClickListener {
+                                dialog, id ->
+                            dialog.dismiss()
+                        })
+                    val alert = dialogBuilder.create()
+                    alert.setTitle("簽名失敗，請確認app版本是否為最新或聯絡客服回報")
+                    alert.show()
+                }
                 dismiss()
             }
         })
